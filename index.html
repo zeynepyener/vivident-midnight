@@ -8,20 +8,23 @@
 <meta name="description" content="Vivident Midnight: sakızla oynanan Vampir Köylü. Rolün sakız kâğıdında saklı.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;0,800;1,800;1,900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Barlow+Condensed:wght@600;700;800&family=Poppins:wght@800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #040a2b;
-    --bg-2: #0a1650;
-    --card: #0d1b5e;
-    --card-2: #13257a;
-    --line: rgba(160, 200, 255, 0.16);
-    --text: #f2f7ff;
-    --muted: #a9bde8;
-    --cobalt: #1e4dff;
-    --cobalt-2: #0f2fc4;
-    --ice: #8fe3ff;
-    --ice-soft: rgba(143, 227, 255, 0.14);
+    --bg: #080c2a;
+    --bg-2: #0f1645;
+    --card: #141b4f;
+    --card-2: #1d2463;
+    --line: rgba(196, 190, 255, 0.16);
+    --text: #f1f0ff;
+    --muted: #b2b5dd;
+    --cobalt: #4a35c2;
+    --cobalt-2: #2a1f86;
+    --logo: #2d2a8e;
+    --plum: #4b2770;
+    --teal: #1a9aa0;
+    --ice: #c9cff6;
+    --ice-soft: rgba(201, 207, 246, 0.13);
     --blood: #ff3058;
     --blood-soft: rgba(255, 48, 88, 0.16);
     --mint: #36e4ac;
@@ -29,7 +32,8 @@
     --sun: #ffc54d;
     --sun-soft: rgba(255, 197, 77, 0.15);
     --radius: 20px;
-    --display: "Poppins", system-ui, sans-serif;
+    --display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+    --gothic: "Cinzel", Georgia, serif;
     --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
   * { box-sizing: border-box; }
@@ -47,33 +51,48 @@
   /* ---------- Hero ---------- */
   .hero {
     position: relative; overflow: hidden; text-align: center;
-    padding: 48px 0 40px;
+    padding: 64px 0 36px;
     background:
-      radial-gradient(circle at 82% 12%, rgba(143,227,255,.22) 0, transparent 28%),
-      radial-gradient(ellipse 120% 70% at 50% 0%, #1636c9 0%, #0a1a6e 45%, var(--bg) 100%);
+      radial-gradient(ellipse 70% 50% at 100% 30%, rgba(110,60,170,.55), transparent 70%),
+      linear-gradient(180deg, #121a5a 0%, #1a2470 35%, #161a55 60%, var(--bg) 100%);
   }
-  .stars { position: absolute; inset: 0; pointer-events: none; }
-  .stars i { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff; opacity: .55; animation: twinkle 3s infinite ease-in-out; }
-  @keyframes twinkle { 50% { opacity: .1; } }
-  .hero-moon {
-    position: absolute; right: -40px; top: -40px; width: 200px; height: 200px; border-radius: 50%;
-    background: radial-gradient(circle at 40% 40%, #ffffff, #d7f4ff 45%, #8fe3ff 80%);
-    box-shadow: 0 0 90px 20px rgba(143,227,255,.35); opacity: .9;
+  .scene { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .scene .flame { animation: flicker 1.4s infinite ease-in-out; transform-box: fill-box; transform-origin: 50% 100%; }
+  @keyframes flicker { 50% { transform: scale(.85, 1.1); opacity: .85; } }
+  .scene .bat { animation: flap 6s infinite ease-in-out; }
+  @keyframes flap { 50% { transform: translate(6px, -4px); } }
+  .ribbon {
+    position: absolute; right: -54px; top: 28px; transform: rotate(45deg); z-index: 2;
+    background: var(--teal); color: #fff; font-family: var(--display); font-weight: 800;
+    text-transform: uppercase; font-size: 13px; letter-spacing: .06em; line-height: 1.15;
+    padding: 6px 60px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,.35);
   }
-  .wordmark { position: relative; display: inline-block; margin-bottom: 6px; }
+  .wordmark { position: relative; display: inline-block; margin-bottom: 2px; }
   .wordmark .brand {
-    font-family: var(--display); font-style: italic; font-weight: 900; font-size: 22px;
-    letter-spacing: .01em; color: #fff;
-    background: var(--cobalt); padding: 4px 18px 5px; border-radius: 999px;
-    box-shadow: 0 6px 20px rgba(30,77,255,.5), inset 0 -2px 0 rgba(0,0,0,.2);
+    font-family: "Poppins", system-ui, sans-serif; font-weight: 900; font-size: clamp(40px, 12vw, 64px);
+    letter-spacing: -.01em; color: var(--logo); line-height: 1;
+    text-shadow:
+      3px 0 #fff, -3px 0 #fff, 0 3px #fff, 0 -3px #fff,
+      2px 2px #fff, -2px -2px #fff, 2px -2px #fff, -2px 2px #fff,
+      0 8px 18px rgba(0,0,0,.45);
   }
   h1 {
-    font-weight: 800; font-style: italic; font-size: clamp(50px, 15vw, 88px);
-    line-height: .95; margin: 14px 0 8px; letter-spacing: -.02em;
-    background: linear-gradient(180deg, #ffffff 35%, var(--ice));
+    font-family: var(--gothic); font-weight: 700; font-size: clamp(40px, 12vw, 70px);
+    line-height: 1; margin: 6px 0 14px; letter-spacing: .03em;
+    background: linear-gradient(180deg, #f2f3ff 20%, #aab2e6 70%, #8c94cf);
     -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 3px 10px rgba(0,0,0,.5));
   }
-  .hero-sub { color: var(--muted); margin: 0 auto 26px; max-width: 420px; }
+  .hero-kicker {
+    font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 24px;
+    line-height: 1.05; color: var(--ice); margin: 0 0 4px; letter-spacing: .02em;
+  }
+  .hero-sub { font-family: var(--display); font-weight: 600; font-size: 19px; color: #fff; margin: 0 auto 22px; max-width: 420px; line-height: 1.2; }
+  .flavors { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 22px; }
+  .flavors span {
+    font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: 13px; letter-spacing: .05em;
+    padding: 5px 12px; border-radius: 6px; color: #fff;
+  }
 
   /* Gum stick reveal demo */
   .draw { position: relative; }
@@ -101,26 +120,25 @@
     position: absolute; inset: 0; border-radius: 10px; overflow: hidden;
     background:
       repeating-linear-gradient(180deg, rgba(255,255,255,.05) 0 6px, transparent 6px 12px),
-      linear-gradient(160deg, #2a5bff, var(--cobalt-2) 60%, #0a1d8c);
+      linear-gradient(160deg, #2c3488, #171c58 55%, #35195a);
     box-shadow: 0 10px 24px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.15);
     display: flex; flex-direction: column; align-items: center; justify-content: space-between;
     padding: 12px 0; transition: transform .6s cubic-bezier(.6,-0.2,.3,1.2), opacity .6s;
   }
   .stick .wrapper::before {
     content: ""; position: absolute; left: 0; right: 0; top: 46%; height: 26px;
-    background: linear-gradient(90deg, #8fe3ff, #ffffff, #8fe3ff); opacity: .9;
+    background: linear-gradient(90deg, #aab2e6, #ffffff, #aab2e6); opacity: .85;
   }
   .stick .wrapper span {
-    position: relative; font-family: var(--display); font-weight: 900; font-style: italic;
-    font-size: 11px; color: #fff; writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: .08em;
+    position: relative; font-family: var(--gothic); font-weight: 700;
+    font-size: 11px; color: #fff; writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: .1em;
   }
-  .stick .wrapper .moonlet { width: 16px; height: 16px; border-radius: 50%; background: #dff6ff; box-shadow: 0 0 10px #8fe3ff; position: relative; }
+  .stick .wrapper .moonlet { width: 16px; height: 16px; border-radius: 50%; background: #eef0ff; box-shadow: 0 0 10px #c9cff6; position: relative; }
   .stick.open .wrapper { transform: translateY(-120%) rotate(-8deg); opacity: 0; }
   .stick.open { transform: translateY(-14px) rotate(0) scale(1.06); }
   .stick.dim { opacity: .35; }
-  .stick.r-vampir .inner { color: #b0102f; }
-  .stick.r-sifaci .inner { color: #0c8a62; }
-  .stick.r-koylu .inner { color: #9a6400; }
+  .stick .inner { color: #3b2a8f; }
+  .stick.r-vampir .inner { color: #a3123a; }
   .draw-msg { min-height: 54px; margin-top: 16px; }
   .draw-msg .big { font-family: var(--display); font-weight: 800; font-size: 22px; }
   .draw-msg .small { color: var(--muted); font-size: 14px; }
@@ -131,7 +149,7 @@
     transition: transform .1s ease, filter .15s ease;
   }
   .btn:active { transform: scale(.97); }
-  .btn-primary { background: linear-gradient(135deg, #3a6bff, var(--cobalt-2)); color: #fff; box-shadow: 0 8px 24px rgba(30,77,255,.45); }
+  .btn-primary { background: linear-gradient(135deg, #5a43d8, var(--cobalt-2)); color: #fff; box-shadow: 0 8px 24px rgba(74,53,194,.45); }
   .btn-red { background: linear-gradient(135deg, var(--blood), #c4123a); color: #fff; box-shadow: 0 8px 24px rgba(255,48,88,.35); }
   .btn-ghost { background: rgba(255,255,255,.07); color: var(--text); border: 1px solid var(--line); }
   .btn-ice { background: var(--ice); color: #06103a; }
@@ -152,8 +170,8 @@
   /* ---------- Sections ---------- */
   section { padding: 48px 0 8px; }
   .eyebrow { font-family: var(--display); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--ice); font-weight: 700; margin: 0 0 6px; }
-  h2 { font-size: clamp(28px, 7vw, 36px); line-height: 1.1; margin: 0 0 12px; font-weight: 800; letter-spacing: -.01em; }
-  h3 { font-size: 18px; margin: 0 0 6px; font-weight: 700; }
+  h2 { font-size: clamp(32px, 8vw, 42px); line-height: 1.02; margin: 0 0 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .01em; }
+  h3 { font-size: 21px; margin: 0 0 6px; font-weight: 700; }
   p.lead { color: var(--muted); margin: 0 0 22px; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
 
@@ -235,7 +253,7 @@
 
   /* Flow */
   .phase { border-radius: var(--radius); padding: 20px 18px; margin-bottom: 14px; border: 1px solid var(--line); }
-  .phase.night { background: linear-gradient(160deg, #142a9e, var(--card) 70%); }
+  .phase.night { background: linear-gradient(160deg, #2a2a7e, var(--card) 70%); }
   .phase.day { background: linear-gradient(160deg, #6a4a10, #2a2440 75%); border-color: rgba(255,197,77,.25); }
   .phase-title { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
   .phase-title svg { width: 26px; height: 26px; }
@@ -262,7 +280,7 @@
   .win .card p { margin: 0; color: var(--muted); }
 
   /* Narrator promo */
-  .narrator-promo { text-align: center; padding: 28px 18px; border-radius: 24px; background: radial-gradient(ellipse at top, #2449e0, var(--card) 75%); border: 1px solid rgba(143,227,255,.35); }
+  .narrator-promo { text-align: center; padding: 28px 18px; border-radius: 24px; background: radial-gradient(ellipse at top, #4b2a86, var(--card) 75%); border: 1px solid rgba(201,207,246,.3); }
   .narrator-promo p { color: var(--muted); }
   .toggles { display: grid; gap: 10px; text-align: left; margin: 18px 0; }
   .toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(0,0,0,.2); padding: 12px 14px; border-radius: 14px; cursor: pointer; }
@@ -276,13 +294,13 @@
   .switch input:focus-visible + i { outline: 2px solid #fff; outline-offset: 2px; }
 
   footer { padding: 48px 0 56px; text-align: center; }
-  footer .brand { font-family: var(--display); font-style: italic; font-weight: 900; color: #fff; background: var(--cobalt); padding: 3px 14px 4px; border-radius: 999px; font-size: 15px; }
-  footer .m { font-family: var(--display); font-style: italic; font-weight: 800; color: var(--ice); margin-left: 6px; }
+  footer .brand { font-family: "Poppins", system-ui, sans-serif; font-weight: 900; color: var(--logo); font-size: 22px; text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff, 1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff; }
+  footer .m { font-family: var(--gothic); font-weight: 700; color: var(--ice); margin-left: 8px; font-size: 18px; letter-spacing: .04em; }
 
   /* ---------- Narrator overlay ---------- */
   .narrator {
     position: fixed; inset: 0; z-index: 50; display: none; flex-direction: column;
-    background: radial-gradient(ellipse 100% 60% at 50% 0%, #1a3ad6, var(--bg) 75%);
+    background: radial-gradient(ellipse 100% 60% at 50% 0%, #34287e, var(--bg) 75%);
   }
   .narrator.open { display: flex; }
   .narrator.is-day { background: radial-gradient(ellipse 100% 60% at 50% 0%, #b07a12, #241c2e 75%); }
@@ -329,12 +347,78 @@
 </svg>
 
 <header class="hero">
-  <div class="hero-moon" aria-hidden="true"></div>
   <div class="stars" id="stars" aria-hidden="true"></div>
+  <svg class="scene" viewBox="0 0 400 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#e9ecff" stop-opacity=".55"/>
+        <stop offset="1" stop-color="#e9ecff" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="moonFill" cx="40%" cy="38%" r="60%">
+        <stop offset="0" stop-color="#ffffff"/>
+        <stop offset=".6" stop-color="#dfe3f7"/>
+        <stop offset="1" stop-color="#b3bae0"/>
+      </radialGradient>
+      <linearGradient id="fog" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#9aa3dd" stop-opacity="0"/>
+        <stop offset=".5" stop-color="#9aa3dd" stop-opacity=".22"/>
+        <stop offset="1" stop-color="#9aa3dd" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <!-- Ay -->
+    <circle cx="74" cy="250" r="90" fill="url(#glow)"/>
+    <circle cx="74" cy="250" r="44" fill="url(#moonFill)"/>
+    <circle cx="60" cy="238" r="7" fill="#aab1d8" opacity=".5"/>
+    <circle cx="86" cy="264" r="10" fill="#aab1d8" opacity=".4"/>
+    <!-- Yarasalar -->
+    <g fill="#0a0e2c">
+      <path class="bat" d="M120 205c4-4 8-4 10 0 2-3 4-3 5 0 1-3 3-3 5 0 2-4 6-4 10 0-4 0-7 3-10 5-2-1-3-2-5-1-2-1-3 0-5 1-3-2-6-5-10-5z"/>
+      <path class="bat" style="animation-delay:-2s" d="M300 150c3-3 6-3 8 0 1-2 3-2 4 0 1-2 2-2 4 0 2-3 5-3 8 0-3 0-6 2-8 4-1-1-2-2-4-1-1-1-3 0-4 1-2-2-5-4-8-4z"/>
+      <path class="bat" style="animation-delay:-4s" d="M40 180c3-3 6-3 7 0 1-2 2-2 3 0 1-2 2-2 3 0 2-3 5-3 7 0-3 0-5 2-7 3-1-1-2-1-3 0-1-1-2-1-3 0-2-1-4-3-7-3z"/>
+    </g>
+    <!-- Uzaktaki köy -->
+    <path fill="#262f72" opacity=".9" d="M0 330h20v-14h8v-10l6-8 6 8v10h10v14h14v-26l10-12 10 12v26h12v-10h16v-22l5-14 5 14v22h18v-12h22v-16l10-8 10 8v16h16v12h12v-34l8-16 8 16v34h20v-10h18v-18l9-10 9 10v18h16v8h22v-14l10-8 10 8v14h18v120H0z"/>
+    <rect y="300" width="400" height="90" fill="url(#fog)"/>
+    <!-- Ağaçlar -->
+    <g fill="none" stroke="#0a0e2c" stroke-linecap="round">
+      <path stroke-width="14" d="M-6 640V420c0-40 10-80 30-120"/>
+      <path stroke-width="6" d="M10 360c20-20 40-30 64-34M18 330c-6-26-2-50 10-70M24 300c18-10 30-26 36-44M14 400c26-6 46 0 62 14"/>
+      <path stroke-width="3" d="M74 326c10-4 18-12 22-22M60 256c8-6 12-16 12-26M28 260c-8-10-10-22-8-34"/>
+      <path stroke-width="14" d="M408 640V400c0-30-8-60-24-90"/>
+      <path stroke-width="6" d="M392 350c-22-18-44-26-70-28M388 320c4-26 0-48-12-66M396 400c-24-10-48-6-64 6"/>
+      <path stroke-width="3" d="M322 322c-12-4-20-12-24-24M376 254c-6-10-8-22-4-32"/>
+    </g>
+    <!-- Meşaleli köylüler -->
+    <g fill="#0a0e2c">
+      <g transform="translate(300 560)">
+        <circle cx="0" cy="-58" r="8"/>
+        <path d="M-10 -58h20l-4-4h-12z"/>
+        <path d="M-12 -48h22l4 28-6 2-2 30h-6l-2-24-2 24h-6l-2-30-4-2z"/>
+        <path d="M8 -44l14-22" stroke="#0a0e2c" stroke-width="4" stroke-linecap="round"/>
+        <path d="M22 -66l2-10" stroke="#5a3a1a" stroke-width="3"/>
+        <path class="flame" d="M23 -76c-5-4-4-11 1-16 1 5 6 7 4 12-1 3-3 4-5 4z" fill="#ffb02e"/>
+        <circle cx="24" cy="-82" r="16" fill="#ffb02e" opacity=".14"/>
+      </g>
+      <g transform="translate(350 572) scale(.8)">
+        <circle cx="0" cy="-58" r="8"/>
+        <path d="M-12 -48h22l4 28-6 2-2 30h-6l-2-24-2 24h-6l-2-30-4-2z"/>
+      </g>
+      <g transform="translate(250 578) scale(.7)">
+        <circle cx="0" cy="-58" r="8"/>
+        <path d="M-12 -48h22l4 28-6 2-2 30h-6l-2-24-2 24h-6l-2-30-4-2z"/>
+        <path d="M-10 -44l-12-22" stroke="#0a0e2c" stroke-width="4" stroke-linecap="round"/>
+        <path class="flame" style="animation-delay:-.6s" d="M-23 -70c-5-4-4-11 1-16 1 5 6 7 4 12-1 3-3 4-5 4z" fill="#ffb02e"/>
+        <circle cx="-22" cy="-76" r="16" fill="#ffb02e" opacity=".14"/>
+      </g>
+    </g>
+    <rect y="540" width="400" height="100" fill="url(#fog)"/>
+  </svg>
+  <div class="ribbon">Arkadaşlarınla<br>oyna!</div>
   <div class="wrap" style="position:relative">
-    <div class="wordmark"><span class="brand">Vivident</span></div>
-    <h1>Midnight</h1>
-    <p class="hero-sub">Sakızla oynanan Vampir Köylü. Rolün, sakızının kâğıdında saklı.</p>
+    <div class="wordmark"><span class="brand">VIVIDENT</span></div>
+    <h1>MIDNIGHT</h1>
+    <p class="hero-kicker">Vampir Köylü<br>Oyunlu Sakız</p>
+    <p class="hero-sub">Her sakızda gizli bir rol! Vampir mi, köylü mü?</p>
 
     <div class="draw">
       <div class="sticks" id="sticks" role="group" aria-label="Bir sakız seç"></div>
@@ -345,6 +429,11 @@
       <div class="cta">
         <button class="btn btn-ghost btn-small" type="button" id="reshuffle" hidden>Yeniden karıştır</button>
         <a class="btn btn-primary" href="#sakiz">Nasıl oynanır?</a>
+      </div>
+      <div class="flavors" aria-label="Aromalar">
+        <span style="background:#1f6e57">Nane</span>
+        <span style="background:var(--plum)">Çilek</span>
+        <span style="background:var(--teal)">Damla sakızı</span>
       </div>
     </div>
   </div>
@@ -558,7 +647,7 @@
 </main>
 
 <footer class="wrap">
-  <span class="brand">Vivident</span><span class="m">Midnight</span>
+  <span class="brand">VIVIDENT</span><span class="m">MIDNIGHT</span>
 </footer>
 
 <!-- Anlatıcı ekranı -->
@@ -604,7 +693,7 @@
   };
   const MIN_OYUNCU = 5, MAX_OYUNCU = 14;
   const ROL = {
-    vampir: { ad: 'Vampir', renk: 'var(--blood)', mesaj: 'Sen bir vampirsin. Kimseye belli etme.' },
+    vampir: { ad: 'Vampir', renk: 'var(--blood)', mesaj: 'Şşşt, rolünü kimseye gösterme!' },
     sifaci: { ad: 'Şifacı', renk: 'var(--mint)', mesaj: 'Sen şifacısın. Köyü geceleri sen koruyacaksın.' },
     koylu:  { ad: 'Köylü',  renk: 'var(--sun)',  mesaj: 'Sen bir köylüsün. Vampiri sesinle bul.' }
   };
@@ -639,7 +728,7 @@
       b.setAttribute('aria-label', (i + 1) + '. sakızı aç');
       b.innerHTML = `
         <span class="inner"><svg aria-hidden="true"><use href="#i-${r}"/></svg><b>${ROL[r].ad}</b></span>
-        <span class="wrapper" aria-hidden="true"><span class="moonlet"></span><span>Midnight</span></span>`;
+        <span class="wrapper" aria-hidden="true"><span class="moonlet"></span><span>MIDNIGHT</span></span>`;
       b.onclick = () => ac(b, r);
       box.appendChild(b);
     });
