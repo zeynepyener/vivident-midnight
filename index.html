@@ -36,7 +36,7 @@
   body {
     margin: 0; background: var(--deep); color: var(--text);
     font-family: var(--body); font-size: 17px; line-height: 1.55;
-    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden; overflow-x: clip;
   }
   img { max-width: 100%; height: auto; display: block; }
   a { color: inherit; }
@@ -65,14 +65,13 @@
 
   /* Üst çubuk */
   .bar {
-    position: sticky; top: 0; z-index: 20; background: rgba(1, 9, 46, .92);
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule);
+    position: sticky; top: 0; z-index: 20; background: var(--deep); border-bottom: 1px solid var(--rule);
   }
   .bar .wrap { display: flex; align-items: center; gap: 20px; height: 56px; }
   .bar .brand { text-decoration: none; display: flex; align-items: baseline; gap: 8px; flex: none; }
   .bar .brand .logo { font-size: 19px; text-shadow: 1.5px 0 #fff, -1.5px 0 #fff, 0 1.5px #fff, 0 -1.5px #fff, 1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff; }
   .bar .brand .midnight { font-size: 15px; }
-  .bar nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; margin-left: auto; }
+  .bar nav { position: relative; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; margin-left: auto; }
   .bar nav::-webkit-scrollbar { display: none; }
   .bar nav a {
     flex: none; text-decoration: none; font-family: var(--head); font-weight: 600; font-size: 15px;
@@ -692,7 +691,13 @@
         if (!e.isIntersecting) return;
         links.forEach(a => a.classList.remove('active'));
         const a = map.get(e.target.id);
-        if (a) { a.classList.add('active'); a.scrollIntoView({ block: 'nearest', inline: 'center' }); }
+        if (!a) return;
+        a.classList.add('active');
+        // Sayfayı değil, yalnızca menü şeridini yatayda kaydır
+        const nav = a.parentElement;
+        if (nav.scrollWidth > nav.clientWidth) {
+          nav.scrollTo({ left: a.offsetLeft - (nav.clientWidth - a.offsetWidth) / 2, behavior: 'smooth' });
+        }
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     map.forEach((_, id) => { const el = document.getElementById(id); if (el) obs.observe(el); });
