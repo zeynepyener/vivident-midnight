@@ -224,9 +224,34 @@
     background: var(--paper); color: var(--ink); padding: 26px 20px 22px; text-align: center; border-radius: 2px;
     box-shadow: 0 18px 30px rgba(0, 0, 0, .35); position: relative;
   }
-  .papers > div:nth-child(1) .paper { transform: rotate(-1.5deg); }
-  .papers > div:nth-child(2) .paper { transform: rotate(1deg); }
-  .papers > div:nth-child(3) .paper { transform: rotate(-.5deg); }
+  .wrapped {
+    position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; font: inherit;
+    cursor: pointer; text-align: center; -webkit-tap-highlight-color: transparent; perspective: 900px;
+  }
+  .papers > div:nth-child(1) .wrapped { transform: rotate(-1.5deg); }
+  .papers > div:nth-child(2) .wrapped { transform: rotate(1deg); }
+  .papers > div:nth-child(3) .wrapped { transform: rotate(-.5deg); }
+  .wrapped:focus-visible { outline: 2px solid var(--teal); outline-offset: 6px; }
+  .wrapped .paper { display: block; }
+  .wrapped .role, .wrapped .tag { display: block; }
+  .cover {
+    position: absolute; inset: -2px; border-radius: 2px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    background:
+      linear-gradient(90deg, transparent 0 calc(50% - 14px), rgba(195, 200, 238, .5) calc(50% - 14px) calc(50% + 14px), transparent calc(50% + 14px)),
+      linear-gradient(170deg, #13246e, var(--navy) 55%, var(--purple-2));
+    box-shadow: 0 18px 30px rgba(0, 0, 0, .45), inset 0 0 0 1px rgba(255, 255, 255, .12);
+    transform-origin: 50% 0;
+    transition: transform .7s cubic-bezier(.5, -0.25, .3, 1.2), opacity .5s ease .15s;
+  }
+  .cover-moon { width: 26px; height: 26px; border-radius: 50%; background: #eef0ff; box-shadow: 0 0 16px rgba(195, 200, 238, .8); flex: none; }
+  .cover-name { font-family: var(--serif); font-weight: 700; font-size: 22px; letter-spacing: .1em; color: var(--lav); }
+  .cover-hint {
+    position: absolute; right: 12px; bottom: 10px; font-family: var(--head); font-weight: 700; font-size: 13px;
+    letter-spacing: .1em; text-transform: uppercase; color: #fff; background: var(--teal); padding: 3px 8px; border-radius: 3px;
+  }
+  .wrapped:hover .cover { transform: rotateX(8deg); }
+  .wrapped.open .cover { transform: rotateX(-100deg) translateY(-20px); opacity: 0; pointer-events: none; }
   .paper::before, .paper::after {
     content: ""; position: absolute; left: 0; right: 0; height: 8px;
     background: linear-gradient(90deg, transparent 0 6px, rgba(0,0,0,.06) 6px 7px) 0 0 / 7px 8px repeat-x;
@@ -272,7 +297,8 @@
 
   /* Anlatıcı rehberi */
   .guide { display: grid; gap: 40px; }
-  @media (min-width: 900px) { .guide { grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center; } }
+  @media (min-width: 900px) { .guide { grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center; } .phone { width: 290px; } }
+  @media (max-width: 899px) { .guide .btn-red { width: 100%; } }
   .toggles { margin-bottom: 24px; border-top: 1px solid var(--rule); }
   .toggle { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--rule); cursor: pointer; }
   .toggle span b { display: block; font-family: var(--head); font-weight: 700; font-size: 19px; text-transform: uppercase; letter-spacing: .02em; }
@@ -285,7 +311,7 @@
   .switch input:checked + i::after { transform: translateX(22px); }
   .switch input:focus-visible + i { outline: 2px solid #fff; outline-offset: 2px; }
   .phone {
-    justify-self: center; width: min(290px, 100%); aspect-ratio: 9 / 17; border-radius: 34px; padding: 12px;
+    justify-self: center; width: min(240px, 72%); aspect-ratio: 9 / 17; border-radius: 34px; padding: 12px;
     background: #0b0f2a; box-shadow: 0 30px 60px rgba(0, 0, 0, .5), inset 0 0 0 2px #2a2f5a;
   }
   .phone .screen {
@@ -332,7 +358,7 @@
   .n-body { flex: 1; overflow-y: auto; padding: 28px 20px; display: flex; flex-direction: column; justify-content: center; }
   .n-inner { max-width: 640px; margin: 0 auto; width: 100%; }
   .n-tag { font-family: var(--head); font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--lav-2); margin-bottom: 12px; }
-  .n-say { font-family: var(--head); font-size: clamp(30px, 7.5vw, 46px); line-height: 1.12; font-weight: 700; margin: 0 0 22px; }
+  .n-say { font-family: var(--head); font-size: clamp(24px, min(7.5vw, 6.2vh), 46px); line-height: 1.12; font-weight: 700; margin: 0 0 22px; }
   .n-note { font-size: 16px; color: var(--muted); border-left: 3px solid var(--teal); padding: 4px 0 4px 14px; }
   .n-note b { color: var(--text); font-weight: 500; }
   .n-choices { display: grid; gap: 10px; margin-top: 24px; }
@@ -341,8 +367,21 @@
   .timer output { display: block; font-family: var(--head); font-size: 76px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.1; }
   .timer output.low { color: #ff7d98; }
   .timer .row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
-  .n-bottom { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; padding: 12px 20px; padding-bottom: max(16px, env(safe-area-inset-bottom)); border-top: 1px solid var(--rule); }
+  .t-set { display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-family: var(--head); text-transform: uppercase; letter-spacing: .06em; font-size: 15px; }
+  .t-set label { margin-right: 4px; }
+  .t-set input {
+    width: 64px; height: 44px; text-align: center; font: inherit; font-family: var(--head); font-weight: 700; font-size: 22px;
+    color: var(--text); background: rgba(255, 255, 255, .06); border: 1.5px solid var(--rule); border-radius: 4px;
+  }
+  .t-set input:focus { outline: 2px solid var(--teal); outline-offset: 1px; }
+  .t-set.locked { opacity: .35; pointer-events: none; }
+  .n-bottom { padding: 12px 20px; padding-bottom: max(16px, env(safe-area-inset-bottom)); border-top: 1px solid var(--rule); }
+  .n-bottom-in { max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2fr; gap: 10px; }
   .n-bottom .btn { width: 100%; }
+  .n-top, .n-progress { width: 100%; max-width: 680px; margin-left: auto; margin-right: auto; }
+  .n-progress { width: calc(100% - 40px); max-width: 640px; }
+  @media (min-width: 900px) { .n-choices { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } .timer output { font-size: 96px; } }
+  @media (max-height: 560px) { .n-body { justify-content: flex-start; padding-top: 12px; } .timer output { font-size: 52px; } }
   .btn[disabled] { opacity: .3; pointer-events: none; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -416,8 +455,8 @@
       <div>
         <h2>Oyun bir dakikada <em>kurulur</em></h2>
         <ol class="steps">
-          <li><div><strong>Anlatıcıyı seçin</strong><p>Kutudaki oklu bölmede anlatıcı sakızı durur. Oyunu yönetmek isteyen gönüllü onu alır.</p></div></li>
-          <li><div><strong>Karıştırın, çekin</strong><p>Kalan sakızları çıkarın, karıştırın. Herkes körlemesine bir tane çeksin.</p></div></li>
+          <li><div><strong>Anlatıcıyı seçin</strong><p>Oklu bölmedeki anlatıcı sakızını isteyen gönüllü alsın. Gönüllü yoksa onu da diğer sakızların arasına karıştırın, kime çıkarsa anlatıcı o olsun.</p></div></li>
+          <li><div><strong>Karıştırın, çekin</strong><p>Sakızları çıkarın, karıştırın. Herkes bir tane çeksin.</p></div></li>
           <li><div><strong>Bak, katla, cebine koy</strong><p>Kâğıdın içine kimseye göstermeden bak. Katla ve cebine koy.</p></div></li>
           <li><div><strong>Hep birlikte ağza</strong><p>Anlatıcı “üç” deyince herkes sakızını aynı anda ağzına atar. Gece başlar.</p></div></li>
         </ol>
@@ -439,29 +478,29 @@
   <section class="s-deep" id="roller">
     <div class="wrap">
       <h2>Kâğıdında <em>ne yazıyor?</em></h2>
-      <p class="lead">İki takım var: vampirler ve köy. Şifacı köyün tarafında.</p>
+      <p class="lead">İki takım var: vampirler ve köylüler. Şifacı köylülerin yanında. Kâğıtlara dokun, aç.</p>
       <div class="papers">
         <div>
-          <div class="paper vampir"><div class="role">Vampir</div><div class="tag">Şşşt, rolünü kimseye gösterme!</div></div>
+          <button class="wrapped" type="button" aria-expanded="false" aria-label="Vampir kâğıdını aç"><span class="paper vampir"><span class="role">Vampir</span><span class="tag">Şşşt, rolünü kimseye gösterme!</span></span><span class="cover" aria-hidden="true"><span class="cover-moon"></span><span class="cover-name">MIDNIGHT</span><span class="cover-hint">Aç</span></span></button>
           <div class="team">Vampir takımı</div>
           <div class="role-desc">Her gece diğer vampirlerle birlikte bir kişiyi ısırır, gündüz masum köylü rolü yapar.
             <ul><li>Vampirler ilk gece birbirini tanır.</li><li>Gece sessizce anlaşıp tek kişi seçerler.</li></ul>
           </div>
         </div>
         <div>
-          <div class="paper"><div class="role">Şifacı</div><div class="tag">Bu gece kimi koruyacaksın?</div></div>
-          <div class="team">Köy takımı</div>
+          <button class="wrapped" type="button" aria-expanded="false" aria-label="Şifacı kâğıdını aç"><span class="paper"><span class="role">Şifacı</span><span class="tag">Bu gece kimi koruyacaksın?</span></span><span class="cover" aria-hidden="true"><span class="cover-moon"></span><span class="cover-name">MIDNIGHT</span><span class="cover-hint">Aç</span></span></button>
+          <div class="team">Köylü takımı</div>
           <div class="role-desc">Her gece bir kişiyi korur. Vampirler o kişiyi ısırırsa kimse ölmez.
             <ul><li>Kendini oyun boyunca yalnızca bir kez koruyabilir.</li><li>Aynı kişiyi üst üste iki gece koruyamaz.</li></ul>
           </div>
         </div>
         <div>
-          <div class="paper"><div class="role">Köylü</div><div class="tag">Vampiri sesinle bul.</div></div>
-          <div class="team">Köy takımı</div>
+          <button class="wrapped" type="button" aria-expanded="false" aria-label="Köylü kâğıdını aç"><span class="paper"><span class="role">Köylü</span><span class="tag">Vampiri sesinle bul.</span></span><span class="cover" aria-hidden="true"><span class="cover-moon"></span><span class="cover-name">MIDNIGHT</span><span class="cover-hint">Aç</span></span></button>
+          <div class="team">Köylü takımı</div>
           <div class="role-desc">Özel bir gücü yok ama en güçlü silahı sesi. Gündüz tartışır, şüphelendiği kişiye oy verir.</div>
         </div>
       </div>
-      <p class="anlatici-line"><strong>Anlatıcı</strong>Kutudaki oklu bölmeden gönüllü olarak alınır. Oynamaz, oyunu yönetir. Geceleri kimin ne yaptığını yalnızca o bilir.</p>
+      <p class="anlatici-line"><strong>Anlatıcı</strong>İki yolu var: oklu bölmedeki anlatıcı sakızını isteyen gönüllü alır ya da anlatıcı sakızı diğerlerinin arasına karıştırılır, kime çıkarsa anlatıcı o olur. Anlatıcı oynamaz, oyunu yönetir. Geceleri kimin ne yaptığını yalnızca o bilir.</p>
     </div>
   </section>
 
@@ -485,10 +524,10 @@
         <p class="lead" style="margin-bottom:0">Köy meydanda toplanır. Herkes konuşur, herkes şüphelidir.</p>
         <ol>
           <li><b>Tartışma</b>Şüphelerini söyle, kendini savun, blöf yap.</li>
-          <li><b>Oylama</b>Anlatıcı üçe kadar sayar, herkes aynı anda bir kişiyi gösterir.</li>
-          <li><b>İfşa</b>En çok oyu alan köyden atılır. Eşitlikte kimse atılmaz.</li>
+          <li><b>Oylama</b>Herkes sırayla köyden atılmasını istediği kişiyi söyler.</li>
+          <li><b>Asılma</b>En çok oyu alan asılır. Eşitlikte kimse asılmaz.</li>
         </ol>
-        <p class="reveal">Ölen, kâğıdını açıp gösterir.</p>
+        <p class="reveal">Ölenin rolü bilinmez.</p>
       </div>
     </div>
   </div>
@@ -498,8 +537,8 @@
     <div class="wrap">
       <h2>Gün doğduğunda <em>kim ayakta?</em></h2>
       <div class="win">
-        <div><div class="who" style="color:var(--lav)">Köy kazanır</div><p>Tüm vampirler gündüz oylamalarıyla köyden atıldığında.</p></div>
-        <div><div class="who" style="color:#ff6b8a">Vampirler kazanır</div><p>Hayattaki vampir sayısı, hayattaki köy takımı sayısına eşit olduğunda.</p></div>
+        <div><div class="who" style="color:var(--lav)">Köylüler kazanır</div><p>Tüm vampirler gündüz oylamalarıyla asıldığında. Bunu anlatıcı açıklar.</p></div>
+        <div><div class="who" style="color:#ff6b8a">Vampirler kazanır</div><p>Hayattaki vampir sayısı, hayattaki köylü takımı sayısına eşit olduğunda.</p></div>
       </div>
     </div>
   </section>
@@ -514,10 +553,6 @@
           <label class="toggle">
             <span><b>Sesli okuma</b><small>Metinleri telefon okusun.</small></span>
             <span class="switch"><input type="checkbox" id="optVoice"><i></i></span>
-          </label>
-          <label class="toggle">
-            <span><b>Kaos modu</b><small>Vampirler birbirini tanımaz, tek tek uyanır. Vampir vampiri de ısırabilir.</small></span>
-            <span class="switch"><input type="checkbox" id="optKaos"><i></i></span>
           </label>
         </div>
         <button class="btn btn-red" type="button" id="openNarrator">Geceyi başlat</button>
@@ -570,19 +605,25 @@
       <p class="n-say" id="nSay"></p>
       <div class="n-note" id="nNote"></div>
       <div class="timer" id="nTimer" hidden>
+        <div class="t-set" id="tSet">
+          <label>Süre</label>
+          <input type="number" id="tMin" min="0" max="59" value="3" inputmode="numeric" aria-label="Dakika"><span>dk</span>
+          <input type="number" id="tSec" min="0" max="59" step="5" value="0" inputmode="numeric" aria-label="Saniye"><span>sn</span>
+        </div>
         <output id="tOut">3:00</output>
         <div class="row">
-          <button class="btn btn-line btn-small" type="button" id="tMinus">−30 sn</button>
           <button class="btn btn-line btn-small" type="button" id="tToggle">Başlat</button>
-          <button class="btn btn-line btn-small" type="button" id="tPlus">+30 sn</button>
+          <button class="btn btn-line btn-small" type="button" id="tReset">Sıfırla</button>
         </div>
       </div>
       <div class="n-choices" id="nChoices"></div>
     </div>
   </div>
   <div class="n-bottom">
-    <button class="btn btn-line" type="button" id="nBack">Geri</button>
-    <button class="btn btn-paper" type="button" id="nNext">Devam</button>
+    <div class="n-bottom-in">
+      <button class="btn btn-line" type="button" id="nBack">Geri</button>
+      <button class="btn btn-paper" type="button" id="nNext">Devam</button>
+    </div>
   </div>
 </div>
 
@@ -632,6 +673,15 @@
   }
   $('reshuffle').onclick = karistir;
   karistir();
+
+  // ---------- Rol kâğıtları ----------
+  document.querySelectorAll('.wrapped').forEach(w => {
+    w.onclick = () => {
+      const acik = w.classList.toggle('open');
+      w.setAttribute('aria-expanded', String(acik));
+      if (acik && navigator.vibrate) navigator.vibrate(30);
+    };
+  });
 
   // ---------- Menü vurgusu ----------
   (function () {
@@ -688,15 +738,15 @@
   renderCalc();
 
   // ---------- Anlatıcı rehberi ----------
-  const N = { list: [], i: 0, gece: 1, sonuc: null, voice: false, kaos: false };
+  const N = { list: [], i: 0, gece: 1, sonuc: null, voice: false };
 
   const hazirlik = () => [
     { tag: 'Hazırlık', faz: 'night',
       say: 'Hoş geldiniz. Bu gece köyde vampirler var.',
       note: 'Sen anlatıcısın. Oyuncuları bir çember halinde oturt. Büyük yazıyı yüksek sesle oku, alttaki notlar sadece senin için.' },
     { tag: 'Hazırlık', faz: 'night',
-      say: 'Sakızları karıştırın ve herkes körlemesine bir tane çeksin.',
-      note: 'Artan sakız varsa kâğıdına bakmadan kenara ayır.' },
+      say: 'Sakızları karıştırın ve herkes bir tane çeksin.',
+      note: 'Anlatıcı sakızı karıştırıldıysa, ona kim çıktıysa rehberi o devralır. Artan sakız varsa kâğıdına bakmadan kenara ayır.' },
     { tag: 'Hazırlık', faz: 'night',
       say: 'Kâğıdınızın içine gizlice bakın. Katlayın, cebinize koyun.',
       note: 'Kimsenin kâğıdını göstermediğinden emin ol.' },
@@ -711,20 +761,11 @@
       say: 'Köy uyusun. Herkes gözlerini kapatsın, başını öne eğsin.',
       note: 'Sakızlar sessizce çiğnensin. Herkesin gözünün kapalı olduğundan emin ol.' });
 
-    if (N.kaos) {
-      steps.push({ tag: `${g}. Gece · Vampirler`, faz: 'night',
-        say: 'Vampirler, gözleriniz kapalıyken elinizi kaldırın.',
-        note: 'Kaos modu: vampirler birbirini görmesin. El kaldıranları aklında tut, sonra ellerini indirmelerini söyle.' });
-      steps.push({ tag: `${g}. Gece · Vampirler`, faz: 'night',
-        say: 'Omzuna dokunduğum vampir gözlerini açsın ve kurbanını göstersin.',
-        note: 'Vampirlere <b>tek tek</b> dokun. Her biri gözünü açıp birini işaret etsin, sonra kapatsın. Farklı kişiler seçilirse birini rastgele uygula. Vampir vampiri de seçebilir.' });
-    } else {
-      steps.push({ tag: `${g}. Gece · Vampirler`, faz: 'night',
-        say: g === 1
-          ? 'Vampirler gözlerini açsın. Birbirinize bakın, artık takımınızı tanıyorsunuz. Bu gece kimi ısırıyorsunuz?'
-          : 'Vampirler gözlerini açsın. Bu gece kimi ısırıyorsunuz?',
-        note: 'Vampirler sessizce anlaşıp <b>tek bir kişiyi</b> işaret etsin. Kimi seçtiklerini aklında tut.' });
-    }
+    steps.push({ tag: `${g}. Gece · Vampirler`, faz: 'night',
+      say: g === 1
+        ? 'Vampirler gözlerini açsın. Birbirinize bakın, artık takımınızı tanıyorsunuz. Bu gece kimi ısırıyorsunuz?'
+        : 'Vampirler gözlerini açsın. Bu gece kimi ısırıyorsunuz?',
+      note: 'Vampirler sessizce anlaşıp <b>tek bir kişiyi</b> işaret etsin. Kimi seçtiklerini aklında tut.' });
     steps.push({ tag: `${g}. Gece · Vampirler`, faz: 'night',
       say: 'Vampirler gözlerini kapatsın.',
       note: 'Biraz bekle, kimse sesinden bir şey anlamasın.' });
@@ -746,10 +787,10 @@
 
     steps.push({ tag: `${g}. Gün · Sabah`, faz: 'day',
       say: () => N.sonuc === 'olum'
-        ? 'Köy uyansın! Güneş doğdu… ama bu sabah herkes uyanamadı. Isırılan kişi kâğıdını açsın ve göstersin.'
+        ? 'Köy uyansın! Güneş doğdu… ama bu sabah herkes uyanamadı. Bu gece biri ısırıldı.'
         : 'Köy uyansın! Vampirler bu gece birini ısırdı… ama şifacı onu kurtardı. Bu gece kimse ölmedi.',
       note: () => N.sonuc === 'olum'
-        ? 'Isırılan kişiye dokun ya da adını söyle. Ölen oyuncu artık konuşamaz.'
+        ? 'Isırılan kişinin adını söyle. Rolünü açıklama, kâğıdını göstermesin. Ölen oyuncu artık konuşamaz.'
         : 'Kimin kurtarıldığını söyleme.' });
 
     steps.push({ tag: `${g}. Gün · Tartışma`, faz: 'day', timer: true,
@@ -757,19 +798,19 @@
       note: 'Süreyi başlat. Süre dolunca oylamaya geç.' });
 
     steps.push({ tag: `${g}. Gün · Oylama`, faz: 'day',
-      say: 'Üç deyince herkes şüphelendiği kişiyi göstersin. Bir… iki… üç!',
-      note: 'En çok oyu alan köyden atılır. Eşitlikte kimse atılmaz.' });
+      say: 'Oylama zamanı. Sırayla herkes köyden atılmasını istediği kişiyi söylesin.',
+      note: 'Oyları say. En çok oyu alan asılır. Eşitlikte kimse asılmaz.' });
 
-    steps.push({ tag: `${g}. Gün · İfşa`, faz: 'day',
-      say: 'Köy kararını verdi. Kâğıdını aç ve herkese göster!',
-      note: 'Eşitlik olduysa bu adımı atla. Gerilimi uzat, kâğıt yavaşça açılsın.' });
+    steps.push({ tag: `${g}. Gün · Asılma`, faz: 'day',
+      say: 'Köy kararını verdi. En çok oyu alan asıldı. Rolü sır olarak kalacak.',
+      note: 'Asılanın adını söyle. Rolünü açıklama, kâğıdını göstermesin. Eşitlik olduysa bu adımı atla.' });
 
     steps.push({ tag: `${g}. Gün · Durum`, faz: 'day',
       say: 'Oyun bitti mi?',
-      note: 'Tüm vampirler atıldıysa köy kazanır. Hayattaki vampirler, hayattaki köy takımı kadar olduysa vampirler kazanır.',
+      note: 'Rolleri sadece sen biliyorsun, kontrol et: Tüm vampirler öldüyse köylüler kazanır. Hayattaki vampirler, hayattaki köylü takımı kadar olduysa vampirler kazanır. Oyun bitmediyse kimseye bir şey belli etme.',
       choices: [
         { label: `Devam: ${g + 1}. gece`, cls: 'btn-paper', act: () => { N.gece = g + 1; N.list = N.list.slice(0, N.i + 1).concat(tur(N.gece)); ileri(); } },
-        { label: 'Köy kazandı', cls: 'btn-line', act: () => bitir('koy') },
+        { label: 'Köylüler kazandı', cls: 'btn-line', act: () => bitir('koy') },
         { label: 'Vampirler kazandı', cls: 'btn-red', act: () => bitir('vampir') }
       ] });
     return steps.map(x => ({ ...x, round: g }));
@@ -779,7 +820,7 @@
     N.list = N.list.slice(0, N.i + 1).concat([{
       tag: 'Oyun bitti', faz: 'end', round: -1,
       say: k === 'koy'
-        ? 'Güneş doğdu ve köy kurtuldu! Son vampir de yakalandı.'
+        ? 'Güneş doğdu ve köylüler kazandı! Son vampir de yakalandı.'
         : 'Köy karanlığa gömüldü. Vampirler kazandı!',
       note: 'Herkes kâğıdını açsın ve rollerini göstersin. Bir el daha?',
       choices: [
@@ -852,19 +893,28 @@
     if (!on && 'speechSynthesis' in window) speechSynthesis.cancel();
   }
 
-  // Zamanlayıcı
-  let tLeft = 180, tBase = 180, tId = null;
+  // Zamanlayıcı: süreyi anlatıcı belirler
+  let tLeft = 180, tId = null;
+  const tGirilen = () => {
+    const m = Math.max(0, Math.min(59, parseInt($('tMin').value, 10) || 0));
+    const sn = Math.max(0, Math.min(59, parseInt($('tSec').value, 10) || 0));
+    return m * 60 + sn;
+  };
   function tShow() {
     const m = Math.floor(tLeft / 60), s = tLeft % 60;
     $('tOut').textContent = m + ':' + String(s).padStart(2, '0');
-    $('tOut').classList.toggle('low', tLeft <= 30);
+    $('tOut').classList.toggle('low', tLeft <= 30 && tId !== null);
   }
-  function timerStop() { clearInterval(tId); tId = null; $('tToggle').textContent = 'Başlat'; }
-  function timerReset() { timerStop(); tLeft = tBase; tShow(); }
+  function timerStop() { clearInterval(tId); tId = null; $('tToggle').textContent = 'Başlat'; $('tSet').classList.remove('locked'); }
+  function timerReset() { timerStop(); tLeft = tGirilen(); tShow(); }
+  $('tMin').oninput = $('tSec').oninput = () => { if (!tId) { tLeft = tGirilen(); tShow(); } };
+  $('tReset').onclick = timerReset;
   $('tToggle').onclick = () => {
-    if (tId) { timerStop(); return; }
-    if (tLeft <= 0) tLeft = tBase;
+    if (tId) { timerStop(); tShow(); return; }
+    if (tLeft <= 0) tLeft = tGirilen();
+    if (tLeft <= 0) return;
     $('tToggle').textContent = 'Durdur';
+    $('tSet').classList.add('locked');
     tId = setInterval(() => {
       tLeft = Math.max(0, tLeft - 1); tShow();
       if (tLeft === 0) {
@@ -874,8 +924,6 @@
       }
     }, 1000);
   };
-  $('tPlus').onclick = () => { tLeft += 30; if (!tId) tBase = tLeft; tShow(); };
-  $('tMinus').onclick = () => { tLeft = Math.max(30, tLeft - 30); if (!tId) tBase = tLeft; tShow(); };
 
   // Ekranın kararmasını engelle
   let wakeLock = null;
@@ -887,7 +935,6 @@
   }
 
   function basla() {
-    N.kaos = $('optKaos').checked;
     N.gece = 1; N.i = 0; N.sonuc = null;
     N.list = hazirlik().concat(tur(1));
     render();
