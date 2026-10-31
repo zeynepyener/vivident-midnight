@@ -51,10 +51,11 @@
   /* ---------- Hero ---------- */
   .hero {
     position: relative; overflow: hidden; text-align: center;
-    padding: 64px 0 36px;
+    padding: 40px 0 110px;
     background:
-      radial-gradient(ellipse 70% 50% at 100% 30%, rgba(110,60,170,.55), transparent 70%),
-      linear-gradient(180deg, #121a5a 0%, #1a2470 35%, #161a55 60%, var(--bg) 100%);
+      radial-gradient(ellipse 70% 55% at 100% 55%, rgba(120,60,180,.6), transparent 70%),
+      radial-gradient(ellipse 60% 50% at 0% 45%, rgba(40,110,150,.45), transparent 70%),
+      linear-gradient(180deg, #121a5a 0%, #1a2470 35%, #161a55 65%, var(--bg) 100%);
   }
   .scene { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
   .scene .flame { animation: flicker 1.4s infinite ease-in-out; transform-box: fill-box; transform-origin: 50% 100%; }
@@ -62,7 +63,7 @@
   .scene .bat { animation: flap 6s infinite ease-in-out; }
   @keyframes flap { 50% { transform: translate(6px, -4px); } }
   .ribbon {
-    position: absolute; right: -54px; top: 28px; transform: rotate(45deg); z-index: 2;
+    position: absolute; right: -58px; bottom: 34px; transform: rotate(-45deg); z-index: 2;
     background: var(--teal); color: #fff; font-family: var(--display); font-weight: 800;
     text-transform: uppercase; font-size: 13px; letter-spacing: .06em; line-height: 1.15;
     padding: 6px 60px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,.35);
@@ -174,6 +175,27 @@
   h3 { font-size: 21px; margin: 0 0 6px; font-weight: 700; }
   p.lead { color: var(--muted); margin: 0 0 22px; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
+
+
+  /* Paket serisi */
+  .series {
+    display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
+    margin: 0 -16px; padding: 6px 16px 14px; scrollbar-width: none;
+  }
+  .series::-webkit-scrollbar { display: none; }
+  .series figure { flex: 0 0 82%; margin: 0; scroll-snap-align: center; text-align: center; }
+  @media (min-width: 640px) {
+    .series { overflow: visible; margin: 0; padding: 6px 0 14px; display: grid; grid-template-columns: repeat(3, 1fr); }
+    .series figure { flex: none; }
+  }
+  .series img { width: 100%; height: auto; display: block; transition: transform .3s ease; }
+  .series figure:hover img { transform: translateY(-6px) rotate(-1deg); }
+  .series figcaption {
+    display: inline-block; margin-top: 10px; font-family: var(--display); font-weight: 800; text-transform: uppercase;
+    font-size: 15px; letter-spacing: .05em; color: #fff; padding: 5px 14px; border-radius: 6px;
+  }
+  .swipe-hint { text-align: center; color: var(--muted); font-size: 13px; margin: 0; }
+  @media (min-width: 640px) { .swipe-hint { display: none; } }
 
   /* Gum journey */
   .journey { display: grid; gap: 12px; }
@@ -348,7 +370,7 @@
 
 <header class="hero">
   <div class="stars" id="stars" aria-hidden="true"></div>
-  <svg class="scene" viewBox="0 0 400 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <svg class="scene" viewBox="0 0 400 640" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
     <defs>
       <radialGradient id="glow" cx="50%" cy="50%" r="50%">
         <stop offset="0" stop-color="#e9ecff" stop-opacity=".55"/>
@@ -365,51 +387,48 @@
         <stop offset="1" stop-color="#9aa3dd" stop-opacity="0"/>
       </linearGradient>
     </defs>
-    <!-- Ay -->
-    <circle cx="74" cy="250" r="90" fill="url(#glow)"/>
-    <circle cx="74" cy="250" r="44" fill="url(#moonFill)"/>
-    <circle cx="60" cy="238" r="7" fill="#aab1d8" opacity=".5"/>
-    <circle cx="86" cy="264" r="10" fill="#aab1d8" opacity=".4"/>
+    <!-- Ay (sağda, vampirin arkasında) -->
+    <circle cx="296" cy="430" r="110" fill="url(#glow)"/>
+    <circle cx="296" cy="430" r="58" fill="url(#moonFill)"/>
+    <circle cx="278" cy="414" r="9" fill="#aab1d8" opacity=".45"/>
+    <circle cx="314" cy="448" r="12" fill="#aab1d8" opacity=".35"/>
     <!-- Yarasalar -->
     <g fill="#0a0e2c">
-      <path class="bat" d="M120 205c4-4 8-4 10 0 2-3 4-3 5 0 1-3 3-3 5 0 2-4 6-4 10 0-4 0-7 3-10 5-2-1-3-2-5-1-2-1-3 0-5 1-3-2-6-5-10-5z"/>
+      <path class="bat" d="M240 360c4-4 8-4 10 0 2-3 4-3 5 0 1-3 3-3 5 0 2-4 6-4 10 0-4 0-7 3-10 5-2-1-3-2-5-1-2-1-3 0-5 1-3-2-6-5-10-5z"/>
       <path class="bat" style="animation-delay:-2s" d="M300 150c3-3 6-3 8 0 1-2 3-2 4 0 1-2 2-2 4 0 2-3 5-3 8 0-3 0-6 2-8 4-1-1-2-2-4-1-1-1-3 0-4 1-2-2-5-4-8-4z"/>
-      <path class="bat" style="animation-delay:-4s" d="M40 180c3-3 6-3 7 0 1-2 2-2 3 0 1-2 2-2 3 0 2-3 5-3 7 0-3 0-5 2-7 3-1-1-2-1-3 0-1-1-2-1-3 0-2-1-4-3-7-3z"/>
+      <path class="bat" style="animation-delay:-4s" d="M70 200c3-3 6-3 7 0 1-2 2-2 3 0 1-2 2-2 3 0 2-3 5-3 7 0-3 0-5 2-7 3-1-1-2-1-3 0-1-1-2-1-3 0-2-1-4-3-7-3z"/>
     </g>
     <!-- Uzaktaki köy -->
-    <path fill="#262f72" opacity=".9" d="M0 330h20v-14h8v-10l6-8 6 8v10h10v14h14v-26l10-12 10 12v26h12v-10h16v-22l5-14 5 14v22h18v-12h22v-16l10-8 10 8v16h16v12h12v-34l8-16 8 16v34h20v-10h18v-18l9-10 9 10v18h16v8h22v-14l10-8 10 8v14h18v120H0z"/>
-    <rect y="300" width="400" height="90" fill="url(#fog)"/>
+    <path fill="#262f72" opacity=".85" d="M0 470h20v-14h8v-10l6-8 6 8v10h10v14h14v-26l10-12 10 12v26h12v-10h16v-22l5-14 5 14v22h18v-12h22v-16l10-8 10 8v16h16v12h12v-34l8-16 8 16v34h20v-10h18v-18l9-10 9 10v18h16v8h22v-14l10-8 10 8v14h18v120H0z"/>
+    <rect y="430" width="400" height="100" fill="url(#fog)"/>
     <!-- Ağaçlar -->
     <g fill="none" stroke="#0a0e2c" stroke-linecap="round">
       <path stroke-width="14" d="M-6 640V420c0-40 10-80 30-120"/>
       <path stroke-width="6" d="M10 360c20-20 40-30 64-34M18 330c-6-26-2-50 10-70M24 300c18-10 30-26 36-44M14 400c26-6 46 0 62 14"/>
       <path stroke-width="3" d="M74 326c10-4 18-12 22-22M60 256c8-6 12-16 12-26M28 260c-8-10-10-22-8-34"/>
-      <path stroke-width="14" d="M408 640V400c0-30-8-60-24-90"/>
-      <path stroke-width="6" d="M392 350c-22-18-44-26-70-28M388 320c4-26 0-48-12-66M396 400c-24-10-48-6-64 6"/>
-      <path stroke-width="3" d="M322 322c-12-4-20-12-24-24M376 254c-6-10-8-22-4-32"/>
+      <path stroke-width="14" d="M408 640V330c0-30-8-60-24-90"/>
+      <path stroke-width="6" d="M392 280c-22-18-44-26-70-28M388 250c4-26 0-48-12-66"/>
+      <path stroke-width="3" d="M322 252c-12-4-20-12-24-24M376 184c-6-10-8-22-4-32"/>
     </g>
-    <!-- Meşaleli köylüler -->
-    <g fill="#0a0e2c">
-      <g transform="translate(300 560)">
-        <circle cx="0" cy="-58" r="8"/>
-        <path d="M-10 -58h20l-4-4h-12z"/>
-        <path d="M-12 -48h22l4 28-6 2-2 30h-6l-2-24-2 24h-6l-2-30-4-2z"/>
-        <path d="M8 -44l14-22" stroke="#0a0e2c" stroke-width="4" stroke-linecap="round"/>
-        <path d="M22 -66l2-10" stroke="#5a3a1a" stroke-width="3"/>
-        <path class="flame" d="M23 -76c-5-4-4-11 1-16 1 5 6 7 4 12-1 3-3 4-5 4z" fill="#ffb02e"/>
-        <circle cx="24" cy="-82" r="16" fill="#ffb02e" opacity=".14"/>
-      </g>
-      <g transform="translate(350 572) scale(.8)">
-        <circle cx="0" cy="-58" r="8"/>
-        <path d="M-12 -48h22l4 28-6 2-2 30h-6l-2-24-2 24h-6l-2-30-4-2z"/>
-      </g>
-      <g transform="translate(250 578) scale(.7)">
-        <circle cx="0" cy="-58" r="8"/>
-        <path d="M-12 -48h22l4 28-6 2-2 30h-6l-2-24-2 24h-6l-2-30-4-2z"/>
-        <path d="M-10 -44l-12-22" stroke="#0a0e2c" stroke-width="4" stroke-linecap="round"/>
-        <path class="flame" style="animation-delay:-.6s" d="M-23 -70c-5-4-4-11 1-16 1 5 6 7 4 12-1 3-3 4-5 4z" fill="#ffb02e"/>
-        <circle cx="-22" cy="-76" r="16" fill="#ffb02e" opacity=".14"/>
-      </g>
+    <!-- Meşaleli köylü (solda) -->
+    <g fill="#0a0e2c" transform="translate(104 604)">
+      <path d="M-14 -96c0-8 6-12 14-12s14 4 14 12z"/>
+      <path d="M-20 -96h40v4h-40z"/>
+      <circle cx="0" cy="-84" r="10"/>
+      <path d="M-18 -72h34l6 40-8 3-3 45h-9l-3-36-3 36h-9l-3-45-8-3z"/>
+      <path d="M14 -66l22-26" stroke="#0a0e2c" stroke-width="5" stroke-linecap="round"/>
+      <path d="M36 -92l3-14" stroke="#5a3a1a" stroke-width="4"/>
+      <circle cx="39" cy="-118" r="22" fill="#ffb02e" opacity=".16"/>
+      <path class="flame" d="M39 -106c-7-5-6-15 1-22 2 7 8 10 6 17-1 4-4 5-7 5z" fill="#ffb02e"/>
+    </g>
+    <!-- Vampir (sağda, ayın önünde) -->
+    <g transform="translate(296 604)">
+      <path fill="#0a0e2c" d="M-46 0c4-40 10-74 22-96l-14-18 22 6 16-6 16 6 22-6-14 18c12 22 18 56 22 96z"/>
+      <path fill="#8e1230" d="M-38 -114l20 14 18-6 18 6 20-14-8 26-12-8-18 4-18-4-12 8z"/>
+      <circle fill="#0a0e2c" cx="0" cy="-120" r="13"/>
+      <path fill="#0a0e2c" d="M-13 -124c4-10 22-10 26 0l-13-6z"/>
+      <path fill="#e8eaff" d="M-6 -96l6 22 6-22-6 3z" opacity=".9"/>
+      <path fill="#0a0e2c" d="M-3 -92h6l-3 8z"/>
     </g>
     <rect y="540" width="400" height="100" fill="url(#fog)"/>
   </svg>
@@ -441,6 +460,7 @@
 
 <nav class="tabs" aria-label="Bölümler">
   <div class="wrap">
+    <a href="#seri">Seri</a>
     <a href="#sakiz">Sakız</a>
     <a href="#hazirlik">Hazırlık</a>
     <a href="#roller">Roller</a>
@@ -451,6 +471,19 @@
 </nav>
 
 <main class="wrap">
+
+  <!-- Seri -->
+  <section id="seri">
+    <p class="eyebrow">Seri</p>
+    <h2>Üç aroma, tek gece</h2>
+    <p class="lead">Her pakette tek aroma, gizli rollü sakızlar ve oklu bölmede bir anlatıcı sakızı.</p>
+    <div class="series">
+      <figure><img src="img/nane.webp" width="900" height="696" alt="Vivident Midnight nane aromalı paket" loading="lazy"><figcaption style="background:#1f6e57">Nane aromalı</figcaption></figure>
+      <figure><img src="img/cilek.webp" width="900" height="706" alt="Vivident Midnight çilek aromalı paket" loading="lazy"><figcaption style="background:var(--plum)">Çilek aromalı</figcaption></figure>
+      <figure><img src="img/damla.webp" width="900" height="658" alt="Vivident Midnight damla sakızı aromalı paket" loading="lazy"><figcaption style="background:var(--teal)">Damla sakızı aromalı</figcaption></figure>
+    </div>
+    <p class="swipe-hint">← Kaydır →</p>
+  </section>
 
   <!-- Sakızın yolculuğu -->
   <section id="sakiz">
