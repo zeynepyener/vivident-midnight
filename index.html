@@ -478,7 +478,7 @@
   <section class="s-deep" id="roller">
     <div class="wrap">
       <h2>Kâğıdında <em>ne yazıyor?</em></h2>
-      <p class="lead">İki takım var: vampirler ve köylüler. Şifacı köylülerin yanında. Kâğıtlara dokun, aç.</p>
+      <p class="lead">İki takım var: vampirler ve köylüler. Doktor köylülerin yanında. Kâğıtlara dokun, aç.</p>
       <div class="papers">
         <div>
           <button class="wrapped" type="button" aria-expanded="false" aria-label="Vampir kâğıdını aç"><span class="paper vampir"><span class="role">Vampir</span><span class="tag">Şşşt, rolünü kimseye gösterme!</span></span><span class="cover" aria-hidden="true"><span class="cover-moon"></span><span class="cover-name">MIDNIGHT</span><span class="cover-hint">Aç</span></span></button>
@@ -488,7 +488,7 @@
           </div>
         </div>
         <div>
-          <button class="wrapped" type="button" aria-expanded="false" aria-label="Şifacı kâğıdını aç"><span class="paper"><span class="role">Şifacı</span><span class="tag">Bu gece kimi koruyacaksın?</span></span><span class="cover" aria-hidden="true"><span class="cover-moon"></span><span class="cover-name">MIDNIGHT</span><span class="cover-hint">Aç</span></span></button>
+          <button class="wrapped" type="button" aria-expanded="false" aria-label="Doktor kâğıdını aç"><span class="paper"><span class="role">Doktor</span><span class="tag">Bu gece kimi koruyacaksın?</span></span><span class="cover" aria-hidden="true"><span class="cover-moon"></span><span class="cover-name">MIDNIGHT</span><span class="cover-hint">Aç</span></span></button>
           <div class="team">Köylü takımı</div>
           <div class="role-desc">Her gece bir kişiyi korur. Vampirler o kişiyi ısırırsa kimse ölmez.
             <ul><li>Kendini oyun boyunca yalnızca bir kez koruyabilir.</li><li>Aynı kişiyi üst üste iki gece koruyamaz.</li></ul>
@@ -513,7 +513,7 @@
         <ol>
           <li><b>Köy uyusun</b>Herkes başını öne eğer.</li>
           <li class="v"><b>Vampirler uyanır</b>Sessizce bir kişiyi seçer. İlk gece birbirlerini de tanırlar.</li>
-          <li class="s"><b>Şifacı uyanır</b>Korumak istediği kişiyi işaret eder.</li>
+          <li class="s"><b>Doktor uyanır</b>Korumak istediği kişiyi işaret eder.</li>
           <li><b>Köy uyanır</b>Anlatıcı gece ne olduğunu açıklar.</li>
         </ol>
       </div>
@@ -636,7 +636,7 @@
   const MIN_OYUNCU = 5, MAX_OYUNCU = 14;
   const ROL = {
     vampir: { ad: 'Vampir', renk: '#ff6b8a', mesaj: 'Şşşt, rolünü kimseye gösterme!' },
-    sifaci: { ad: 'Şifacı', renk: '#5fe0b4', mesaj: 'Köyü geceleri sen koruyacaksın.' },
+    sifaci: { ad: 'Doktor', renk: '#5fe0b4', mesaj: 'Köyü geceleri sen koruyacaksın.' },
     koylu:  { ad: 'Köylü',  renk: 'var(--lav)', mesaj: 'Vampiri sesinle bul.' }
   };
   const $ = id => document.getElementById(id);
@@ -724,7 +724,7 @@
       <div class="mini" aria-hidden="true">${sticks}</div>
       <div class="legend">
         <span><i style="background:var(--blood)"></i>${r.vampir} Vampir</span>
-        <span><i style="background:#2fae84"></i>${r.sifaci} Şifacı</span>
+        <span><i style="background:#2fae84"></i>${r.sifaci} Doktor</span>
         <span><i style="background:#6e74b8"></i>${r.koylu} Köylü</span>
         <span><i style="background:var(--teal)"></i>1 Anlatıcı</span>
       </div>`;
@@ -770,25 +770,25 @@
       say: 'Vampirler gözlerini kapatsın.',
       note: 'Biraz bekle, kimse sesinden bir şey anlamasın.' });
 
-    steps.push({ tag: `${g}. Gece · Şifacı`, faz: 'night',
-      say: 'Şifacı gözlerini açsın. Bu gece kimi koruyorsun?',
-      note: 'Şifacı kendini oyun boyunca <b>bir kez</b> koruyabilir ve aynı kişiyi üst üste iki gece koruyamaz. Şifacı ölmüş olsa bile bu adımı oku, kimse anlamasın.' });
-    steps.push({ tag: `${g}. Gece · Şifacı`, faz: 'night',
-      say: 'Şifacı gözlerini kapatsın.',
-      note: 'Şimdi geceyi değerlendir: Şifacı, vampirlerin seçtiği kişiyi mi korudu?' });
+    steps.push({ tag: `${g}. Gece · Doktor`, faz: 'night',
+      say: 'Doktor gözlerini açsın. Bu gece kimi koruyorsun?',
+      note: 'Doktor kendini oyun boyunca <b>bir kez</b> koruyabilir ve aynı kişiyi üst üste iki gece koruyamaz. Doktor ölmüş olsa bile bu adımı oku, kimse anlamasın.' });
+    steps.push({ tag: `${g}. Gece · Doktor`, faz: 'night',
+      say: 'Doktor gözlerini kapatsın.',
+      note: 'Şimdi geceyi değerlendir: Doktor, vampirlerin seçtiği kişiyi mi korudu?' });
 
     steps.push({ tag: `${g}. Gece · Sonuç`, faz: 'night',
       say: 'Gece nasıl geçti?',
       note: 'Bu ekran sadece senin için. Sonucu seç, sonraki ekranda yüksek sesle okuyacaksın.',
       choices: [
         { label: 'Biri ısırıldı', cls: 'btn-red', act: () => { N.sonuc = 'olum'; ileri(); } },
-        { label: 'Şifacı kurtardı, kimse ölmedi', cls: 'btn-line', act: () => { N.sonuc = 'kurtuldu'; ileri(); } }
+        { label: 'Doktor kurtardı, kimse ölmedi', cls: 'btn-line', act: () => { N.sonuc = 'kurtuldu'; ileri(); } }
       ] });
 
     steps.push({ tag: `${g}. Gün · Sabah`, faz: 'day',
       say: () => N.sonuc === 'olum'
         ? 'Köy uyansın! Güneş doğdu… ama bu sabah herkes uyanamadı. Bu gece biri ısırıldı.'
-        : 'Köy uyansın! Vampirler bu gece birini ısırdı… ama şifacı onu kurtardı. Bu gece kimse ölmedi.',
+        : 'Köy uyansın! Vampirler bu gece birini ısırdı… ama doktor onu kurtardı. Bu gece kimse ölmedi.',
       note: () => N.sonuc === 'olum'
         ? 'Isırılan kişinin adını söyle. Rolünü açıklama, kâğıdını göstermesin. Ölen oyuncu artık konuşamaz.'
         : 'Kimin kurtarıldığını söyleme.' });
