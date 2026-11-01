@@ -642,7 +642,7 @@
   // Her pakette 10 sakız: oklu bölmede 1 anlatıcı + 9 rol.
   const PAKET = { vampir: 2, sifaci: 1, koylu: 6 };
   const PAKET_SAKIZ = 10;
-  const MIN_KISI = 6, MAX_KISI = 28;   // anlatıcı dahil
+  const MIN_KISI = 6, MAX_KISI = 30;   // anlatıcı dahil
   // Sakız çekme demosu: 5 oyunculuk hazırlanmış bir deste
   const DEMO = { vampir: 1, sifaci: 1, koylu: 3 };
   const ROL = {
@@ -719,8 +719,10 @@
   let kisi = 6;
   function dagilim(k) {
     const oyuncu = k - 1;
-    const paket = Math.ceil(oyuncu / (PAKET.vampir + PAKET.sifaci + PAKET.koylu));
-    const elde = { vampir: PAKET.vampir * paket, sifaci: PAKET.sifaci * paket, koylu: PAKET.koylu * paket };
+    const paket = Math.ceil(k / PAKET_SAKIZ);
+    // Birden fazla paket açılırsa, diğer paketlerin anlatıcı sakızları köylü yerine geçer
+    const ekstra = paket - 1;
+    const elde = { vampir: PAKET.vampir * paket, sifaci: PAKET.sifaci * paket, koylu: PAKET.koylu * paket + ekstra };
     // Yaklaşık her dört oyuncuya bir vampir, tek doktor; köylü yetmezse fazla doktor oyuna girer
     let vampir = Math.min(elde.vampir, Math.max(1, Math.floor((oyuncu + 1) / 4)));
     let sifaci = 1;
@@ -728,11 +730,20 @@
     if (koylu > elde.koylu) { sifaci = Math.min(elde.sifaci, sifaci + koylu - elde.koylu); koylu = oyuncu - vampir - sifaci; }
     if (koylu > elde.koylu) { vampir = Math.min(elde.vampir, vampir + koylu - elde.koylu); koylu = oyuncu - vampir - sifaci; }
     const ayir = { vampir: elde.vampir - vampir, sifaci: elde.sifaci - sifaci, koylu: elde.koylu - koylu };
-    return { paket, vampir, sifaci, koylu, ayir, artan: paket * PAKET_SAKIZ - k };
+    const ayirAnl = Math.min(ekstra, ayir.koylu);
+    return { paket, vampir, sifaci, koylu, ayir, ekstra, ayirAnl, oyundaAnl: ekstra - ayirAnl, artan: paket * PAKET_SAKIZ - k };
   }
   const roller = (o) => [
     o.vampir && `${o.vampir} Vampir`, o.sifaci && `${o.sifaci} Doktor`, o.koylu && `${o.koylu} Köylü`
   ].filter(Boolean).join(', ') || 'hiçbiri';
+  // Birden fazla paketle oynarken diğer paketlerin anlatıcı sakızları için açıklama
+  function ekstraNot(r) {
+    if (!r.ekstra) return '';
+    const parca = [];
+    if (r.ayirAnl) parca.push(`Ayıracağın köylülerden ${r.ayirAnl} tanesi diğer ${r.ayirAnl > 1 ? 'paketlerin' : 'paketin'} anlatıcı sakızı olsun.`);
+    if (r.oyundaAnl) parca.push(`Diğer ${r.ekstra > 1 ? 'paketlerin' : 'paketin'} anlatıcı sakızı oyunda köylü yerine geçer: onu çeken kişi köylüdür.`);
+    return parca.join(' ');
+  }
   function renderCalc() {
     const r = dagilim(kisi);
     $('pCount').textContent = kisi;
@@ -744,15 +755,14 @@
     const cubuk = (renk, n, off) => Array(n).fill(`<i style="background:${renk}"${off ? ' class="off"' : ''}></i>`).join('');
     const sticks =
       cubuk('var(--blood)', r.vampir) + cubuk('#2fae84', r.sifaci) + cubuk('#6e74b8', r.koylu) + cubuk('var(--teal)', 1) +
-      cubuk('var(--blood)', r.ayir.vampir, 1) + cubuk('#2fae84', r.ayir.sifaci, 1) + cubuk('#6e74b8', r.ayir.koylu, 1) +
-      cubuk('var(--teal)', r.paket - 1, 1);
+      cubuk('var(--blood)', r.ayir.vampir, 1) + cubuk('#2fae84', r.ayir.sifaci, 1) + cubuk('#6e74b8', r.ayir.koylu, 1);
     let html = `
       <p class="calc-packs">${r.paket} paket · ${r.artan} sakız artacak</p>
       <div class="mini" aria-hidden="true">${sticks}</div>
       <div class="calc-rows">
         <span><b>Oyunda:</b> ${roller(r)} + 1 Anlatıcı</span>
-        <span><b>Anlatıcının ayıracağı:</b> ${roller(r.ayir)}${r.paket > 1 ? ` ve ikinci paketin anlatıcı sakızı` : ''}</span>
-      </div>
+        <span><b>Anlatıcının ayıracağı:</b> ${roller(r.ayir)}</span>
+      </div>${ekstraNot(r) ? `<p class="note" style="margin:0 0 14px">${ekstraNot(r)}</p>` : ''}
       <div class="legend">
         <span><i style="background:var(--blood)"></i>Vampir</span>
         <span><i style="background:#2fae84"></i>Doktor</span>
@@ -781,7 +791,7 @@
       say: 'Ben rolleri hazırlarken biraz bekleyin.',
       note: () => {
         const r = dagilim(kisi);
-        return `<b>${kisi} kişi</b> için ${r.paket} paket gerekiyor. Sakızların kâğıt ucunu gizlice aralayıp bak ve şunları ayır: <b>${roller(r.ayir)}</b>${r.paket > 1 ? ' ve ikinci paketin anlatıcı sakızı' : ''}. Oyunda kalacaklar: ${roller(r)}. Kişi sayısı yanlışsa rehberi kapatıp düzelt.`;
+        return `<b>${kisi} kişi</b> için ${r.paket} paket gerekiyor. Sakızların kâğıt ucunu gizlice aralayıp bak ve şunları ayır: <b>${roller(r.ayir)}</b>. Oyunda kalacaklar: ${roller(r)}. ${ekstraNot(r)} Kişi sayısı yanlışsa rehberi kapatıp düzelt.`;
       } },
     { tag: 'Hazırlık', faz: 'night',
       say: 'Sakızları karıştırdım. Herkes bir tane çeksin.',
