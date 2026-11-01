@@ -207,6 +207,12 @@
   .stepper { display: inline-flex; align-items: center; border: 2px solid var(--ink); border-radius: 4px; }
   .stepper button { width: 52px; height: 52px; border: 0; background: transparent; color: var(--ink); font-size: 26px; font-weight: 500; cursor: pointer; }
   .stepper button:disabled { opacity: .3; cursor: default; }
+  .stepper.small { border-color: var(--lav); }
+  .stepper.small button { width: 40px; height: 40px; color: #fff; font-size: 22px; }
+  .stepper.small output { min-width: 44px; font-size: 22px; line-height: 40px; color: #fff; border-color: var(--lav); }
+  .mini i.off { opacity: .22; }
+  .calc-rows { margin: 0 0 14px; display: grid; gap: 4px; font-size: 15px; color: #3c3a66; }
+  .calc-rows b { color: var(--ink); }
   .stepper output { min-width: 60px; text-align: center; font-family: var(--head); font-size: 32px; font-weight: 800; color: var(--ink); border-left: 2px solid var(--ink); border-right: 2px solid var(--ink); line-height: 52px; }
   .calc-result { margin-top: 20px; }
   .calc-packs { font-family: var(--head); font-weight: 700; font-size: 20px; text-transform: uppercase; color: var(--ink); margin: 0 0 12px; }
@@ -453,15 +459,15 @@
       <div>
         <h2>Oyun bir dakikada <em>kurulur</em></h2>
         <ol class="steps">
-          <li><div><strong>Anlatıcıyı seçin</strong><p>Oklu bölmedeki anlatıcı sakızını isteyen gönüllü alsın. Gönüllü yoksa onu da diğer sakızların arasına karıştırın, kime çıkarsa anlatıcı o olsun.</p></div></li>
-          <li><div><strong>Karıştırın, çekin</strong><p>Sakızları çıkarın, karıştırın. Herkes bir tane çeksin.</p></div></li>
+          <li><div><strong>Anlatıcıyı seçin</strong><p>Oklu bölmedeki anlatıcı sakızını isteyen gönüllü alır. Gönüllü çıkmazsa anlatıcıyı kurayla belirleyin.</p></div></li>
+          <li><div><strong>Anlatıcı rolleri hazırlar</strong><p>Anlatıcı sakızların kâğıt ucunu gizlice aralayıp rollere bakar. Kişi sayısına göre fazla sakızları ayırır, kalanları karıştırır. Herkes bir tane çeker.</p></div></li>
           <li><div><strong>Bak, katla, cebine koy</strong><p>Kâğıdın içine kimseye göstermeden bak. Katla ve cebine koy.</p></div></li>
           <li><div><strong>Hep birlikte ağza</strong><p>Anlatıcı “üç” deyince herkes sakızını aynı anda ağzına atar. Gece başlar.</p></div></li>
         </ol>
       </div>
       <div class="calc" id="hesap">
         <h3>Kaç kişisiniz?</h3>
-        <p class="hint">Anlatıcı hariç oyuncu sayısını seçin.</p>
+        <p class="hint">Anlatıcı dahil kaç kişi oynayacağını seçin. Her pakette 10 sakız var: 1 anlatıcı, 9 rol.</p>
         <div class="stepper" role="group" aria-label="Oyuncu sayısı">
           <button type="button" id="pMinus" aria-label="Azalt">−</button>
           <output id="pCount" aria-live="polite">5</output>
@@ -498,7 +504,7 @@
           <div class="role-desc">Özel bir gücü yok ama en güçlü silahı sesi. Gündüz tartışır, şüphelendiği kişiye oy verir.</div>
         </div>
       </div>
-      <p class="anlatici-line"><strong>Anlatıcı</strong>İki yolu var: oklu bölmedeki anlatıcı sakızını isteyen gönüllü alır ya da anlatıcı sakızı diğerlerinin arasına karıştırılır, kime çıkarsa anlatıcı o olur. Anlatıcı oynamaz, oyunu yönetir. Geceleri kimin ne yaptığını yalnızca o bilir.</p>
+      <p class="anlatici-line"><strong>Anlatıcı</strong>Oklu bölmedeki anlatıcı sakızını isteyen gönüllü alır; gönüllü çıkmazsa kurayla belirlenir. Anlatıcı oynamaz, oyunu yönetir. Oyundan önce rolleri kişi sayısına göre o hazırlar; geceleri kimin ne yaptığını da yalnızca o bilir.</p>
     </div>
   </section>
 
@@ -548,6 +554,12 @@
         <h2>Anlatıcı <em>rehberi</em></h2>
         <p class="lead">Telefonu eline al. Her adımda ne söyleyeceğin ekranda yazar, istersen telefon sesli okur. Tartışma süresini de tutar.</p>
         <div class="toggles">
+          <div class="toggle">
+            <span><b>Kaç kişisiniz?</b><small>Anlatıcı dahil. Rolleri buna göre hazırlayacaksın.</small></span>
+            <span class="stepper small" role="group" aria-label="Kişi sayısı">
+              <button type="button" class="kMinus" aria-label="Azalt">−</button><output class="kCount">6</output><button type="button" class="kPlus" aria-label="Artır">+</button>
+            </span>
+          </div>
           <label class="toggle">
             <span><b>Sesli okuma</b><small>Metinleri telefon okusun.</small></span>
             <span class="switch"><input type="checkbox" id="optVoice"><i></i></span>
@@ -569,7 +581,7 @@
   <section class="s-deep" id="seri">
     <div class="wrap">
       <h2>Üç aroma, <em>tek gece</em></h2>
-      <p class="lead">Her pakette tek aroma, gizli rollü sakızlar ve oklu bölmede bir anlatıcı sakızı.</p>
+      <p class="lead">Her pakette tek aroma ve 10 sakız: 9 gizli rollü sakız, oklu bölmede bir anlatıcı sakızı. Tek paket 10 kişiye kadar yeter, daha kalabalıksanız bir paket daha alın.</p>
       <div class="series">
         <figure><img src="img/nane.webp" width="1140" height="886" alt="Vivident Midnight nane aromalı paket" loading="lazy" decoding="async"><figcaption><span style="background:#2f8a6a"></span>Nane aromalı</figcaption></figure>
         <figure><img src="img/cilek.webp" width="1109" height="858" alt="Vivident Midnight çilek aromalı paket" loading="lazy" decoding="async"><figcaption><span style="background:#8a2a7a"></span>Çilek aromalı</figcaption></figure>
@@ -626,12 +638,13 @@
 </div>
 
 <script>
-  // Paket içerikleri: üretim kararı değişirse yalnızca burayı güncelleyin.
-  const PAKET = {
-    ana:        { vampir: 1, sifaci: 1, koylu: 3 }, // + oklu bölmede 1 Anlatıcı
-    genisletme: { vampir: 1, koylu: 2 }
-  };
-  const MIN_OYUNCU = 5, MAX_OYUNCU = 14;
+  // Paket içeriği: üretim kararı değişirse yalnızca burayı güncelleyin.
+  // Her pakette 10 sakız: oklu bölmede 1 anlatıcı + 9 rol.
+  const PAKET = { vampir: 2, sifaci: 1, koylu: 6 };
+  const PAKET_SAKIZ = 10;
+  const MIN_KISI = 6, MAX_KISI = 28;   // anlatıcı dahil
+  // Sakız çekme demosu: 5 oyunculuk hazırlanmış bir deste
+  const DEMO = { vampir: 1, sifaci: 1, koylu: 3 };
   const ROL = {
     vampir: { ad: 'Vampir', renk: '#ff6b8a', mesaj: 'Şşşt, rolünü kimseye gösterme!' },
     sifaci: { ad: 'Doktor', renk: '#5fe0b4', mesaj: 'Köyü geceleri sen koruyacaksın.' },
@@ -642,7 +655,7 @@
   // ---------- Sakız çekme ----------
   function karistir() {
     const roller = [];
-    Object.entries(PAKET.ana).forEach(([r, n]) => { for (let i = 0; i < n; i++) roller.push(r); });
+    Object.entries(DEMO).forEach(([r, n]) => { for (let i = 0; i < n; i++) roller.push(r); });
     for (let i = roller.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [roller[i], roller[j]] = [roller[j], roller[i]];
@@ -703,42 +716,58 @@
   })();
 
   // ---------- Paket hesaplayıcı ----------
-  let oyuncu = 5;
-  function hesapla(n) {
-    const gen = Math.max(0, Math.ceil((n - 5) / 3));
-    const vampir = PAKET.ana.vampir + gen * PAKET.genisletme.vampir;
-    const sifaci = PAKET.ana.sifaci;
-    const koylu = PAKET.ana.koylu + gen * PAKET.genisletme.koylu;
-    const toplam = vampir + sifaci + koylu;
-    return { gen, vampir, sifaci, koylu, toplam, fazla: toplam - n };
+  let kisi = 6;
+  function dagilim(k) {
+    const oyuncu = k - 1;
+    const paket = Math.ceil(oyuncu / (PAKET.vampir + PAKET.sifaci + PAKET.koylu));
+    const elde = { vampir: PAKET.vampir * paket, sifaci: PAKET.sifaci * paket, koylu: PAKET.koylu * paket };
+    // Yaklaşık her dört oyuncuya bir vampir, tek doktor; köylü yetmezse fazla doktor oyuna girer
+    let vampir = Math.min(elde.vampir, Math.max(1, Math.floor((oyuncu + 1) / 4)));
+    let sifaci = 1;
+    let koylu = oyuncu - vampir - sifaci;
+    if (koylu > elde.koylu) { sifaci = Math.min(elde.sifaci, sifaci + koylu - elde.koylu); koylu = oyuncu - vampir - sifaci; }
+    if (koylu > elde.koylu) { vampir = Math.min(elde.vampir, vampir + koylu - elde.koylu); koylu = oyuncu - vampir - sifaci; }
+    const ayir = { vampir: elde.vampir - vampir, sifaci: elde.sifaci - sifaci, koylu: elde.koylu - koylu };
+    return { paket, vampir, sifaci, koylu, ayir, artan: paket * PAKET_SAKIZ - k };
   }
+  const roller = (o) => [
+    o.vampir && `${o.vampir} Vampir`, o.sifaci && `${o.sifaci} Doktor`, o.koylu && `${o.koylu} Köylü`
+  ].filter(Boolean).join(', ') || 'hiçbiri';
   function renderCalc() {
-    const r = hesapla(oyuncu);
-    $('pCount').textContent = oyuncu;
-    $('pMinus').disabled = oyuncu <= MIN_OYUNCU;
-    $('pPlus').disabled = oyuncu >= MAX_OYUNCU;
-    const sticks = [
-      ...Array(r.vampir).fill('var(--blood)'),
-      ...Array(r.sifaci).fill('#2fae84'),
-      ...Array(r.koylu).fill('#6e74b8'),
-      'var(--teal)'
-    ].map(c => `<i style="background:${c}"></i>`).join('');
+    const r = dagilim(kisi);
+    $('pCount').textContent = kisi;
+    $('pMinus').disabled = kisi <= MIN_KISI;
+    $('pPlus').disabled = kisi >= MAX_KISI;
+    document.querySelectorAll('.kCount').forEach(o => o.textContent = kisi);
+    document.querySelectorAll('.kMinus').forEach(b => b.disabled = kisi <= MIN_KISI);
+    document.querySelectorAll('.kPlus').forEach(b => b.disabled = kisi >= MAX_KISI);
+    const cubuk = (renk, n, off) => Array(n).fill(`<i style="background:${renk}"${off ? ' class="off"' : ''}></i>`).join('');
+    const sticks =
+      cubuk('var(--blood)', r.vampir) + cubuk('#2fae84', r.sifaci) + cubuk('#6e74b8', r.koylu) + cubuk('var(--teal)', 1) +
+      cubuk('var(--blood)', r.ayir.vampir, 1) + cubuk('#2fae84', r.ayir.sifaci, 1) + cubuk('#6e74b8', r.ayir.koylu, 1) +
+      cubuk('var(--teal)', r.paket - 1, 1);
     let html = `
-      <p class="calc-packs">1 ana paket${r.gen ? ` + ${r.gen} genişletme` : ''}</p>
+      <p class="calc-packs">${r.paket} paket · ${r.artan} sakız artacak</p>
       <div class="mini" aria-hidden="true">${sticks}</div>
+      <div class="calc-rows">
+        <span><b>Oyunda:</b> ${roller(r)} + 1 Anlatıcı</span>
+        <span><b>Anlatıcının ayıracağı:</b> ${roller(r.ayir)}${r.paket > 1 ? ` ve ikinci paketin anlatıcı sakızı` : ''}</span>
+      </div>
       <div class="legend">
-        <span><i style="background:var(--blood)"></i>${r.vampir} Vampir</span>
-        <span><i style="background:#2fae84"></i>${r.sifaci} Doktor</span>
-        <span><i style="background:#6e74b8"></i>${r.koylu} Köylü</span>
-        <span><i style="background:var(--teal)"></i>1 Anlatıcı</span>
-      </div>`;
-    if (r.fazla > 0) {
-      html += `<p class="note"><b>${r.fazla} sakız artacak.</b> Karıştırdıktan sonra anlatıcı ${r.fazla === 1 ? 'bir sakızı' : r.fazla + ' sakızı'} kâğıdına bakmadan kenara ayırır. Böylece kimse oyunda tam olarak kaç vampir olduğunu bilmez. İlk gece hiçbir vampir uyanmazsa sakızları toplayıp yeniden çekin.</p>`;
-    }
+        <span><i style="background:var(--blood)"></i>Vampir</span>
+        <span><i style="background:#2fae84"></i>Doktor</span>
+        <span><i style="background:#6e74b8"></i>Köylü</span>
+        <span><i style="background:var(--teal)"></i>Anlatıcı</span>
+        <span><i style="background:#9a98b8;opacity:.4"></i>Ayrılan</span>
+      </div>
+      <p class="note">Anlatıcı zaten geceleri herkesin rolünü göreceği için rolleri önceden bilmesinde sakınca yok. Ayrılan sakızlar oyundan sonra çiğnenebilir.</p>`;
     $('calcResult').innerHTML = html;
   }
-  $('pMinus').onclick = () => { if (oyuncu > MIN_OYUNCU) { oyuncu--; renderCalc(); } };
-  $('pPlus').onclick = () => { if (oyuncu < MAX_OYUNCU) { oyuncu++; renderCalc(); } };
+  const kisiDegis = (d) => { kisi = Math.min(MAX_KISI, Math.max(MIN_KISI, kisi + d)); renderCalc(); };
+  $('pMinus').onclick = () => kisiDegis(-1);
+  $('pPlus').onclick = () => kisiDegis(1);
+  document.querySelectorAll('.kMinus').forEach(b => b.onclick = () => kisiDegis(-1));
+  document.querySelectorAll('.kPlus').forEach(b => b.onclick = () => kisiDegis(1));
   renderCalc();
 
   // ---------- Anlatıcı rehberi ----------
@@ -749,8 +778,14 @@
       say: 'Hoş geldiniz. Bu gece köyde vampirler var.',
       note: 'Sen anlatıcısın. Oyuncuları bir çember halinde oturt. Büyük yazıyı yüksek sesle oku, alttaki notlar sadece senin için.' },
     { tag: 'Hazırlık', faz: 'night',
-      say: 'Sakızları karıştırın ve herkes bir tane çeksin.',
-      note: 'Anlatıcı sakızı karıştırıldıysa, ona kim çıktıysa rehberi o devralır. Artan sakız varsa kâğıdına bakmadan kenara ayır.' },
+      say: 'Ben rolleri hazırlarken biraz bekleyin.',
+      note: () => {
+        const r = dagilim(kisi);
+        return `<b>${kisi} kişi</b> için ${r.paket} paket gerekiyor. Sakızların kâğıt ucunu gizlice aralayıp bak ve şunları ayır: <b>${roller(r.ayir)}</b>${r.paket > 1 ? ' ve ikinci paketin anlatıcı sakızı' : ''}. Oyunda kalacaklar: ${roller(r)}. Kişi sayısı yanlışsa rehberi kapatıp düzelt.`;
+      } },
+    { tag: 'Hazırlık', faz: 'night',
+      say: 'Sakızları karıştırdım. Herkes bir tane çeksin.',
+      note: 'Sakızları karıştırıp masaya koy, herkes bir tane alsın.' },
     { tag: 'Hazırlık', faz: 'night',
       say: 'Kâğıdınızın içine gizlice bakın. Katlayın, cebinize koyun.',
       note: 'Kimsenin kâğıdını göstermediğinden emin ol.' },
