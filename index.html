@@ -270,6 +270,14 @@
   .team { font-family: var(--head); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 14px; color: var(--lav-2); margin-top: 20px; }
   .anlatici-line { margin: 48px 0 0; padding-top: 24px; border-top: 1px solid var(--rule); color: var(--muted); max-width: 720px; }
   .anlatici-line strong { color: #fff; font-family: var(--head); font-size: 20px; text-transform: uppercase; letter-spacing: .03em; margin-right: 6px; }
+  .season { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--rule); }
+  .season h3 { font-size: clamp(28px, 6.5vw, 40px); font-weight: 800; line-height: 1; margin: 0 0 12px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .badge {
+    font-family: var(--head); font-weight: 700; font-size: 14px; letter-spacing: .1em; text-transform: uppercase;
+    background: var(--teal); color: #fff; padding: 5px 10px; border-radius: 3px;
+  }
+  @media (min-width: 760px) { .papers.two { grid-template-columns: repeat(2, 1fr); max-width: 760px; } }
+  .paper.deli .role { color: #7a2a9a; }
 
   /* Gece / gündüz */
   .cycle { display: grid; }
@@ -502,6 +510,22 @@
           <button class="wrapped" type="button" aria-expanded="false" aria-label="Köylü kâğıdını aç"><span class="paper"><span class="role">Köylü</span><span class="tag">Vampiri sesinle bul.</span></span><span class="cover" aria-hidden="true"><span class="cover-moon"></span><span class="cover-name">MIDNIGHT</span><span class="cover-hint">Aç</span></span></button>
           <div class="team">Köylü takımı</div>
           <div class="role-desc">Özel bir gücü yok ama en güçlü silahı sesi. Gündüz tartışır, şüphelendiği kişiye oy verir.</div>
+        </div>
+      </div>
+      <div class="season">
+        <h3>2. Sezon <span class="badge">Yakında</span></h3>
+        <p class="lead">Köye iki yabancı geliyor. Yeni roller aynı paketin içinde, köylülerin yerine geçecek. Eski ve yeni paketler aynı oyunda birlikte kullanılabilecek.</p>
+        <div class="papers two">
+          <div>
+            <button class="wrapped" type="button" aria-expanded="false" aria-label="Avcı kâğıdını aç"><span class="paper"><span class="role">Avcı</span><span class="tag">Giderken birini de götür.</span></span><span class="cover" aria-hidden="true"><span class="cover-moon"></span><span class="cover-name">MIDNIGHT</span><span class="cover-hint">Aç</span></span></button>
+            <div class="team">Köylü takımı</div>
+            <div class="role-desc">Öldüğünde, ister gece ısırılsın ister gündüz asılsın, hemen bir kişiyi seçer ve onu da yanında götürür.</div>
+          </div>
+          <div>
+            <button class="wrapped" type="button" aria-expanded="false" aria-label="Deli kâğıdını aç"><span class="paper deli"><span class="role">Deli</span><span class="tag">Herkesi kendine inandır.</span></span><span class="cover" aria-hidden="true"><span class="cover-moon"></span><span class="cover-name">MIDNIGHT</span><span class="cover-hint">Aç</span></span></button>
+            <div class="team">Tek başına</div>
+            <div class="role-desc">Tek amacı şüphe çekmek. Gündüz oylamasında asılırsa oyunu tek başına kazanır.</div>
+          </div>
         </div>
       </div>
       <p class="anlatici-line"><strong>Anlatıcı</strong>Oklu bölmedeki anlatıcı sakızını isteyen gönüllü alır; gönüllü çıkmazsa kurayla belirlenir. Anlatıcı oynamaz, oyunu yönetir. Oyundan önce rolleri kişi sayısına göre o hazırlar; geceleri kimin ne yaptığını da yalnızca o bilir.</p>
