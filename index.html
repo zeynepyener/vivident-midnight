@@ -310,6 +310,9 @@
   }
   .win .who { font-family: var(--head); font-weight: 800; font-size: clamp(30px, 7vw, 44px); text-transform: uppercase; line-height: 1; margin-bottom: 10px; }
   .win p { margin: 0; color: var(--muted); }
+  .final { margin-top: 36px; max-width: 720px; }
+  .final-title { font-family: var(--serif); color: var(--lav); font-size: 26px; margin: 0 0 8px; }
+  .final p:last-child { color: var(--muted); margin: 0; }
 
   /* Anlatıcı rehberi */
   .guide { display: grid; gap: 40px; }
@@ -552,7 +555,7 @@
           <li><b>Oylama</b>Herkes sırayla köyden atılmasını istediği kişiyi söyler.</li>
           <li><b>Asılma</b>En çok oyu alan asılır. Eşitlikte kimse asılmaz.</li>
         </ol>
-        <p class="reveal">Ölenin rolü bilinmez.</p>
+        <p class="reveal">Ölenin rolü oyun bitene kadar bilinmez.</p>
       </div>
     </div>
   </div>
@@ -564,6 +567,10 @@
       <div class="win">
         <div><div class="who" style="color:var(--lav)">Köylüler kazanır</div><p>Tüm vampirler gündüz oylamalarıyla asıldığında. Bunu anlatıcı açıklar.</p></div>
         <div><div class="who" style="color:#ff6b8a">Vampirler kazanır</div><p>Hayattaki vampir sayısı, hayattaki köylü takımı sayısına eşit olduğunda.</p></div>
+      </div>
+      <div class="final">
+        <p class="final-title">Final: Kâğıtlar açılır</p>
+        <p>Oyun bittiğinde herkes cebindeki kâğıdı çıkarıp açar. Ölenler de dahil, bütün roller ortaya çıkar: kim vampirdi, kim blöf yaptı, doktor kimi kurtardı… Bir el daha oynamak için en iyi an.</p>
       </div>
     </div>
   </section>
