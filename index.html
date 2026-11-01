@@ -276,8 +276,12 @@
     font-family: var(--head); font-weight: 700; font-size: 14px; letter-spacing: .1em; text-transform: uppercase;
     background: var(--teal); color: #fff; padding: 5px 10px; border-radius: 3px;
   }
-  @media (min-width: 760px) { .papers.two { grid-template-columns: repeat(2, 1fr); max-width: 760px; } }
-  .paper.deli .role { color: #7a2a9a; }
+  .mystery { display: flex; gap: 14px; flex-wrap: wrap; }
+  .mystery .cover { position: relative; inset: auto; flex: 1 1 140px; max-width: 220px; height: 96px; }
+  .mystery .cover:nth-child(1) { transform: rotate(-2deg); }
+  .mystery .cover:nth-child(2) { transform: rotate(1.5deg); opacity: .8; }
+  .mystery .cover:nth-child(3) { transform: rotate(-.5deg); opacity: .6; }
+  .mystery .cover-name { font-size: 34px; }
 
   /* Gece / gündüz */
   .cycle { display: grid; }
@@ -513,19 +517,12 @@
         </div>
       </div>
       <div class="season">
-        <h3>2. Sezon <span class="badge">Yakında</span></h3>
-        <p class="lead">Köye iki yabancı geliyor. Yeni roller aynı paketin içinde, köylülerin yerine geçecek. Eski ve yeni paketler aynı oyunda birlikte kullanılabilecek.</p>
-        <div class="papers two">
-          <div>
-            <button class="wrapped" type="button" aria-expanded="false" aria-label="Avcı kâğıdını aç"><span class="paper"><span class="role">Avcı</span><span class="tag">Giderken birini de götür.</span></span><span class="cover" aria-hidden="true"><span class="cover-moon"></span><span class="cover-name">MIDNIGHT</span><span class="cover-hint">Aç</span></span></button>
-            <div class="team">Köylü takımı</div>
-            <div class="role-desc">Öldüğünde, ister gece ısırılsın ister gündüz asılsın, hemen bir kişiyi seçer ve onu da yanında götürür.</div>
-          </div>
-          <div>
-            <button class="wrapped" type="button" aria-expanded="false" aria-label="Deli kâğıdını aç"><span class="paper deli"><span class="role">Deli</span><span class="tag">Herkesi kendine inandır.</span></span><span class="cover" aria-hidden="true"><span class="cover-moon"></span><span class="cover-name">MIDNIGHT</span><span class="cover-hint">Aç</span></span></button>
-            <div class="team">Tek başına</div>
-            <div class="role-desc">Tek amacı şüphe çekmek. Gündüz oylamasında asılırsa oyunu tek başına kazanır.</div>
-          </div>
+        <h3>Köye yeni yüzler geliyor <span class="badge">Yakında</span></h3>
+        <p class="lead">Yeni roller yakında, yeni paketlerde…</p>
+        <div class="mystery" aria-hidden="true">
+          <span class="cover"><span class="cover-moon"></span><span class="cover-name">?</span></span>
+          <span class="cover"><span class="cover-moon"></span><span class="cover-name">?</span></span>
+          <span class="cover"><span class="cover-moon"></span><span class="cover-name">?</span></span>
         </div>
       </div>
       <p class="anlatici-line"><strong>Anlatıcı</strong>Oklu bölmedeki anlatıcı sakızını isteyen gönüllü alır; gönüllü çıkmazsa kurayla belirlenir. Anlatıcı oynamaz, oyunu yönetir. Oyundan önce rolleri kişi sayısına göre o hazırlar; geceleri kimin ne yaptığını da yalnızca o bilir.</p>
