@@ -474,15 +474,15 @@
       <div>
         <h2>Oyun bir dakikada <em>kurulur</em></h2>
         <ol class="steps">
-          <li><div><strong>Anlatıcıyı seçin</strong><p>Oklu bölmedeki anlatıcı sakızını isteyen gönüllü alır. Gönüllü çıkmazsa anlatıcıyı kurayla belirleyin.</p></div></li>
-          <li><div><strong>Anlatıcı rolleri hazırlar</strong><p>Anlatıcı sakızların kâğıt ucunu gizlice aralayıp rollere bakar. Kişi sayısına göre fazla sakızları ayırır, kalanları karıştırır. Herkes bir tane çeker.</p></div></li>
+          <li><div><strong>Kişi sayısı kadar sakız alın</strong><p>Sakızlar kutuda belirli bir sırayla dizili. Soldan başlayarak, anlatıcı dahil kaç kişiyseniz o kadar sakız alın. Gerisi kutuda kalır; roller zaten kişi sayısına göre dengeli çıkar.</p></div></li>
+          <li><div><strong>İlki anlatıcının, gerisini karıştırın</strong><p>En soldaki sakız anlatıcınındır; anlatıcı olmak isteyen gönüllü alır, gönüllü çıkmazsa kurayla belirleyin. Kalan sakızları avucunuzda karıştırın, herkes bir tane çeksin.</p></div></li>
           <li><div><strong>Bak, katla, cebine koy</strong><p>Kâğıdın içine kimseye göstermeden bak. Katla ve cebine koy.</p></div></li>
           <li><div><strong>Hep birlikte ağza</strong><p>Anlatıcı “üç” deyince herkes sakızını aynı anda ağzına atar. Gece başlar.</p></div></li>
         </ol>
       </div>
       <div class="calc" id="hesap">
         <h3>Kaç kişisiniz?</h3>
-        <p class="hint">Anlatıcı dahil kaç kişi oynayacağını seçin. Her pakette 10 sakız var: 1 anlatıcı, 9 rol.</p>
+        <p class="hint">Anlatıcı dahil kaç kişi oynayacağını seçin. Her kutuda 14 sakız var: 1 anlatıcı, 3 vampir, 1 doktor, 9 köylü. Tek kutu 5 ile 14 kişi arası oynar.</p>
         <div class="stepper" role="group" aria-label="Oyuncu sayısı">
           <button type="button" id="pMinus" aria-label="Azalt">−</button>
           <output id="pCount" aria-live="polite">5</output>
@@ -498,7 +498,7 @@
     <div class="wrap">
       <h2>Kâğıdında <em>ne yazıyor?</em></h2>
       <p class="lead">İki takım var: vampirler ve köylüler. Doktor köylülerin yanında. Kâğıtlara dokun, aç.</p>
-      <p class="anlatici-line"><strong>Anlatıcı</strong>Oklu bölmedeki anlatıcı sakızını isteyen gönüllü alır; gönüllü çıkmazsa kurayla belirlenir. Anlatıcı oynamaz, oyunu yönetir. Oyundan önce rolleri kişi sayısına göre o hazırlar; geceleri kimin ne yaptığını da yalnızca o bilir.</p>
+      <p class="anlatici-line"><strong>Anlatıcı</strong>Kutudaki en soldaki sakız anlatıcınındır; isteyen gönüllü alır, gönüllü çıkmazsa kurayla belirlenir. Anlatıcı oynamaz, oyunu yönetir; geceleri kimin ne yaptığını yalnızca o bilir.</p>
       <div class="papers">
         <div>
           <button class="wrapped" type="button" aria-expanded="false" aria-label="Vampir kâğıdını aç"><span class="paper vampir"><span class="role">Vampir</span><span class="tag">Şşşt, rolünü kimseye gösterme!</span></span><span class="cover" aria-hidden="true"><span class="cover-moon"></span><span class="cover-name">MIDNIGHT</span><span class="cover-hint">Aç</span></span></button>
@@ -609,7 +609,7 @@
   <section class="s-deep" id="seri">
     <div class="wrap">
       <h2>Üç aroma, <em>tek gece</em></h2>
-      <p class="lead">Her pakette tek aroma ve 10 sakız: 9 gizli rollü sakız, oklu bölmede bir anlatıcı sakızı. Tek paket 10 kişiye kadar yeter, daha kalabalıksanız bir paket daha alın.</p>
+      <p class="lead">Her kutuda tek aroma ve 14 sakız: 1 anlatıcı, 3 vampir, 1 doktor, 9 köylü. Tek kutu 5 ile 14 kişi arası her grup için yeter; daha az kişiyseniz soldan kişi sayınız kadar sakız almanız yeterli.</p>
       <div class="series">
         <figure><img src="img/nane.webp" width="1140" height="886" alt="Vivident Midnight nane aromalı paket" loading="lazy" decoding="async"><figcaption><span style="background:#2f8a6a"></span>Nane aromalı</figcaption></figure>
         <figure><img src="img/cilek.webp" width="1109" height="858" alt="Vivident Midnight çilek aromalı paket" loading="lazy" decoding="async"><figcaption><span style="background:#8a2a7a"></span>Çilek aromalı</figcaption></figure>
@@ -666,12 +666,13 @@
 </div>
 
 <script>
-  // Paket içeriği: üretim kararı değişirse yalnızca burayı güncelleyin.
-  // Her pakette 10 sakız: oklu bölmede 1 anlatıcı + 9 rol.
-  const PAKET = { vampir: 2, sifaci: 1, koylu: 6 };
-  const PAKET_SAKIZ = 10;
-  const MIN_KISI = 6, MAX_KISI = 30;   // anlatıcı dahil
-  // Sakız çekme demosu: 5 oyunculuk hazırlanmış bir deste
+  // Kutudaki sabit diziliş (soldan sağa): üretim kararı değişirse yalnızca burayı güncelleyin.
+  // Grup soldan kişi sayısı kadar sakız alır; ilki anlatıcınındır.
+  // 5 → 1V/0D/3K · 6–8 → 1V/1D · 9–12 → 2V/1D · 13–14 → 3V/1D (anlatıcı dahil)
+  const SIRA = ['anlatici', 'vampir', 'koylu', 'koylu', 'koylu', 'sifaci', 'koylu',
+                'koylu', 'vampir', 'koylu', 'koylu', 'koylu', 'vampir', 'koylu'];
+  const MIN_KISI = 5, MAX_KISI = SIRA.length;   // anlatıcı dahil
+  // Sakız çekme demosu: 6 kişilik (anlatıcı dahil) bir grubun oyuncu sakızları
   const DEMO = { vampir: 1, sifaci: 1, koylu: 3 };
   const ROL = {
     vampir: { ad: 'Vampir', renk: '#ff6b8a', mesaj: 'Şşşt, rolünü kimseye gösterme!' },
@@ -745,33 +746,16 @@
 
   // ---------- Paket hesaplayıcı ----------
   let kisi = 6;
+  // Soldan k sakız alındığında oyuna giren roller
   function dagilim(k) {
-    const oyuncu = k - 1;
-    const paket = Math.ceil(k / PAKET_SAKIZ);
-    // Birden fazla paket açılırsa, diğer paketlerin anlatıcı sakızları köylü yerine geçer
-    const ekstra = paket - 1;
-    const elde = { vampir: PAKET.vampir * paket, sifaci: PAKET.sifaci * paket, koylu: PAKET.koylu * paket + ekstra };
-    // Yaklaşık her dört oyuncuya bir vampir, tek doktor; köylü yetmezse fazla doktor oyuna girer
-    let vampir = Math.min(elde.vampir, Math.max(1, Math.floor((oyuncu + 1) / 4)));
-    let sifaci = 1;
-    let koylu = oyuncu - vampir - sifaci;
-    if (koylu > elde.koylu) { sifaci = Math.min(elde.sifaci, sifaci + koylu - elde.koylu); koylu = oyuncu - vampir - sifaci; }
-    if (koylu > elde.koylu) { vampir = Math.min(elde.vampir, vampir + koylu - elde.koylu); koylu = oyuncu - vampir - sifaci; }
-    const ayir = { vampir: elde.vampir - vampir, sifaci: elde.sifaci - sifaci, koylu: elde.koylu - koylu };
-    const ayirAnl = Math.min(ekstra, ayir.koylu);
-    return { paket, vampir, sifaci, koylu, ayir, ekstra, ayirAnl, oyundaAnl: ekstra - ayirAnl, artan: paket * PAKET_SAKIZ - k };
+    const r = { vampir: 0, sifaci: 0, koylu: 0 };
+    SIRA.slice(1, k).forEach(x => r[x]++);
+    return { ...r, kalan: SIRA.length - k };
   }
   const roller = (o) => [
     o.vampir && `${o.vampir} Vampir`, o.sifaci && `${o.sifaci} Doktor`, o.koylu && `${o.koylu} Köylü`
   ].filter(Boolean).join(', ') || 'hiçbiri';
-  // Birden fazla paketle oynarken diğer paketlerin anlatıcı sakızları için açıklama
-  function ekstraNot(r) {
-    if (!r.ekstra) return '';
-    const parca = [];
-    if (r.ayirAnl) parca.push(`Ayıracağın köylülerden ${r.ayirAnl} tanesi diğer ${r.ayirAnl > 1 ? 'paketlerin' : 'paketin'} anlatıcı sakızı olsun.`);
-    if (r.oyundaAnl) parca.push(`Diğer ${r.ekstra > 1 ? 'paketlerin' : 'paketin'} anlatıcı sakızı oyunda köylü yerine geçer: onu çeken kişi köylüdür.`);
-    return parca.join(' ');
-  }
+  const RENK = { anlatici: 'var(--teal)', vampir: 'var(--blood)', sifaci: '#2fae84', koylu: '#6e74b8' };
   function renderCalc() {
     const r = dagilim(kisi);
     $('pCount').textContent = kisi;
@@ -780,25 +764,23 @@
     document.querySelectorAll('.kCount').forEach(o => o.textContent = kisi);
     document.querySelectorAll('.kMinus').forEach(b => b.disabled = kisi <= MIN_KISI);
     document.querySelectorAll('.kPlus').forEach(b => b.disabled = kisi >= MAX_KISI);
-    const cubuk = (renk, n, off) => Array(n).fill(`<i style="background:${renk}"${off ? ' class="off"' : ''}></i>`).join('');
-    const sticks =
-      cubuk('var(--blood)', r.vampir) + cubuk('#2fae84', r.sifaci) + cubuk('#6e74b8', r.koylu) + cubuk('var(--teal)', 1) +
-      cubuk('var(--blood)', r.ayir.vampir, 1) + cubuk('#2fae84', r.ayir.sifaci, 1) + cubuk('#6e74b8', r.ayir.koylu, 1);
+    // Kutu soldan sağa: alınan sakızlar renkli, kutuda kalanlar soluk
+    const sticks = SIRA.map((x, i) => `<i style="background:${RENK[x]}"${i >= kisi ? ' class="off"' : ''}></i>`).join('');
     let html = `
-      <p class="calc-packs">${r.paket} paket · ${r.artan} sakız artacak</p>
+      <p class="calc-packs">Soldan ${kisi} sakız al${r.kalan ? ` · ${r.kalan} sakız kutuda kalır` : ''}</p>
       <div class="mini" aria-hidden="true">${sticks}</div>
       <div class="calc-rows">
-        <span><b>Oyunda:</b> ${roller(r)} + 1 Anlatıcı</span>
-        <span><b>Anlatıcının ayıracağı:</b> ${roller(r.ayir)}</span>
-      </div>${ekstraNot(r) ? `<p class="note" style="margin:0 0 14px">${ekstraNot(r)}</p>` : ''}
+        <span><b>İlk sakız:</b> Anlatıcı</span>
+        <span><b>Oyunda:</b> ${roller(r)}</span>
+      </div>
       <div class="legend">
+        <span><i style="background:var(--teal)"></i>Anlatıcı</span>
         <span><i style="background:var(--blood)"></i>Vampir</span>
         <span><i style="background:#2fae84"></i>Doktor</span>
         <span><i style="background:#6e74b8"></i>Köylü</span>
-        <span><i style="background:var(--teal)"></i>Anlatıcı</span>
-        <span><i style="background:#9a98b8;opacity:.4"></i>Ayrılan</span>
+        <span><i style="background:#9a98b8;opacity:.4"></i>Kutuda kalan</span>
       </div>
-      <p class="note">Anlatıcı zaten geceleri herkesin rolünü göreceği için rolleri önceden bilmesinde sakınca yok. Ayrılan sakızlar oyundan sonra çiğnenebilir.</p>`;
+      <p class="note">Sakızlar kutuda sabit sırayla dizili, bu yüzden kimsenin rollere bakmasına gerek yok. Soldan kişi sayınız kadar alın, ilkini anlatıcıya verin, gerisini karıştırıp dağıtın.${r.sifaci ? '' : ' 5 kişilik oyunda doktor yoktur.'}</p>`;
     $('calcResult').innerHTML = html;
   }
   const kisiDegis = (d) => { kisi = Math.min(MAX_KISI, Math.max(MIN_KISI, kisi + d)); renderCalc(); };
@@ -816,14 +798,14 @@
       say: 'Hoş geldiniz. Bu gece köyde vampirler var.',
       note: 'Sen anlatıcısın. Oyuncuları bir çember halinde oturt. Büyük yazıyı yüksek sesle oku, alttaki notlar sadece senin için.' },
     { tag: 'Hazırlık', faz: 'night',
-      say: 'Ben rolleri hazırlarken biraz bekleyin.',
+      say: () => `Kutudan soldan başlayarak ${kisi} sakız alıyorum. İlki benim, anlatıcı sakızı.`,
       note: () => {
         const r = dagilim(kisi);
-        return `<b>${kisi} kişi</b> için ${r.paket} paket gerekiyor. Sakızların kâğıt ucunu gizlice aralayıp bak ve şunları ayır: <b>${roller(r.ayir)}</b>. Oyunda kalacaklar: ${roller(r)}. ${ekstraNot(r)} Kişi sayısı yanlışsa rehberi kapatıp düzelt.`;
+        return `Sırayı bozmadan soldan <b>${kisi} sakız</b> al, gerisini kutuda bırak. Oyunda: <b>${roller(r)}</b>. Kişi sayısı yanlışsa rehberi kapatıp düzelt.`;
       } },
     { tag: 'Hazırlık', faz: 'night',
-      say: 'Sakızları karıştırdım. Herkes bir tane çeksin.',
-      note: 'Sakızları karıştırıp masaya koy, herkes bir tane alsın.' },
+      say: 'Sakızları avucumda karıştırıyorum. Herkes bir tane çeksin.',
+      note: 'Kalan sakızları avucunda karıştır, herkes bir tane çeksin.' },
     { tag: 'Hazırlık', faz: 'night',
       say: 'Kâğıdınızın içine gizlice bakın. Katlayın, cebinize koyun.',
       note: 'Kimsenin kâğıdını göstermediğinden emin ol.' },
@@ -847,6 +829,10 @@
       say: 'Vampirler gözlerini kapatsın.',
       note: 'Biraz bekle, kimse sesinden bir şey anlamasın.' });
 
+    // 5 kişilik oyunda doktor yok: doktor adımları atlanır, vampirlerin seçtiği kişi her gece ölür
+    const doktorVar = dagilim(kisi).sifaci > 0;
+    if (!doktorVar) N.sonuc = 'olum';
+    if (doktorVar) {
     steps.push({ tag: `${g}. Gece · Doktor`, faz: 'night',
       say: 'Doktor gözlerini açsın. Bu gece kimi koruyorsun?',
       note: 'Doktor kendini oyun boyunca <b>bir kez</b> koruyabilir ve aynı kişiyi üst üste iki gece koruyamaz. Doktor ölmüş olsa bile bu adımı oku, kimse anlamasın.' });
@@ -861,6 +847,7 @@
         { label: 'Biri ısırıldı', cls: 'btn-red', act: () => { N.sonuc = 'olum'; ileri(); } },
         { label: 'Doktor kurtardı, kimse ölmedi', cls: 'btn-line', act: () => { N.sonuc = 'kurtuldu'; ileri(); } }
       ] });
+    }
 
     steps.push({ tag: `${g}. Gün · Sabah`, faz: 'day',
       say: () => N.sonuc === 'olum'
