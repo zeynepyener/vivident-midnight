@@ -409,6 +409,42 @@
   @media (max-height: 560px) { .n-body { justify-content: flex-start; padding-top: 12px; } .timer output { font-size: 52px; } }
   .btn[disabled] { opacity: .3; pointer-events: none; }
 
+  /* Anlatıcı ekranı süsleri: gece dolunay + sis, gündüz güneş + çiçekler */
+  .narrator > :not(.n-sky) { position: relative; z-index: 1; }
+  .n-sky { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+  .n-moon, .n-sun {
+    position: absolute; top: 76px; right: max(20px, calc(50% - 320px)); width: clamp(64px, 16vw, 104px); height: auto;
+    transition: transform 1.4s cubic-bezier(.2, .7, .2, 1), opacity 1.2s ease;
+  }
+  .n-moon { filter: drop-shadow(0 0 18px rgba(220, 225, 255, .55)); animation: moonGlow 6s ease-in-out infinite alternate; }
+  .n-sun { opacity: 0; transform: translateY(90px) scale(.8); filter: drop-shadow(0 0 22px rgba(255, 190, 90, .6)); }
+  .n-sun .rays { transform-origin: 60px 60px; animation: spin 40s linear infinite; }
+  .n-fog { position: absolute; left: -30%; right: -30%; height: 55%; bottom: -8%; transition: opacity 1.2s ease; }
+  .n-fog i {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: radial-gradient(ellipse 50% 40% at 30% 70%, rgba(190, 200, 240, .28), transparent 70%),
+                radial-gradient(ellipse 45% 35% at 75% 60%, rgba(190, 200, 240, .22), transparent 70%);
+    filter: blur(14px); animation: drift 26s ease-in-out infinite alternate;
+  }
+  .n-fog i + i { top: 18%; animation-duration: 34s; animation-direction: alternate-reverse; opacity: .8; }
+  .n-flowers {
+    position: absolute; left: 0; right: 0; bottom: 100%; width: 100%; max-width: 640px; height: 66px; margin: 0 auto;
+    pointer-events: none; transform: scaleY(0); transform-origin: bottom; opacity: 0;
+    transition: transform .9s cubic-bezier(.2, .8, .3, 1.2) .35s, opacity .6s ease .35s;
+  }
+  .n-flowers .f { transform-box: fill-box; transform-origin: 50% 100%; animation: sway 4s ease-in-out infinite alternate; }
+  .n-flowers g:nth-of-type(2n) .f { animation-duration: 5s; animation-delay: -1.5s; }
+  .n-flowers g:nth-of-type(3n) .f { animation-duration: 3.6s; animation-delay: -.8s; }
+  /* Gündüz ve köylülerin kazandığı final: güneş doğar, çiçekler açar, ay batar, sis dağılır */
+  .narrator.is-day .n-moon, .narrator.win-koy .n-moon { opacity: 0; transform: translateY(70px) scale(.85); }
+  .narrator.is-day .n-sun, .narrator.win-koy .n-sun { opacity: 1; transform: none; }
+  .narrator.is-day .n-fog, .narrator.win-koy .n-fog { opacity: 0; }
+  .narrator.is-day .n-flowers, .narrator.win-koy .n-flowers { transform: scaleY(1); opacity: 1; }
+  @keyframes moonGlow { to { filter: drop-shadow(0 0 30px rgba(220, 225, 255, .8)); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes drift { from { transform: translateX(-6%); } to { transform: translateX(6%); } }
+  @keyframes sway { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
     html { scroll-behavior: auto; }
@@ -632,6 +668,24 @@
 
 <!-- Anlatıcı ekranı -->
 <div class="narrator" id="narrator" role="dialog" aria-modal="true" aria-label="Anlatıcı rehberi">
+  <div class="n-sky" aria-hidden="true">
+    <svg class="n-moon" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="52" fill="#eef0ff"/>
+      <circle cx="44" cy="46" r="10" fill="#d4d8f2"/>
+      <circle cx="74" cy="72" r="14" fill="#d4d8f2"/>
+      <circle cx="78" cy="38" r="6" fill="#dde0f6"/>
+      <circle cx="40" cy="80" r="5" fill="#dde0f6"/>
+    </svg>
+    <svg class="n-sun" viewBox="0 0 120 120">
+      <g class="rays" stroke="#ffc35a" stroke-width="5" stroke-linecap="round">
+        <path d="M60 4v14M60 102v14M4 60h14M102 60h14M20 20l10 10M90 90l10 10M20 100l10-10M90 30l10-10"/>
+      </g>
+      <circle cx="60" cy="60" r="32" fill="#ffb347"/>
+      <circle cx="60" cy="60" r="32" fill="url(#sunGlow)"/>
+      <defs><radialGradient id="sunGlow" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#ffe9a8"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient></defs>
+    </svg>
+    <div class="n-fog"><i></i><i></i></div>
+  </div>
   <div class="n-top">
     <span class="chip" id="nChip">Hazırlık</span>
     <span class="spacer"></span>
@@ -664,6 +718,20 @@
     </div>
   </div>
   <div class="n-bottom">
+    <svg class="n-flowers" viewBox="0 0 640 56" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <g id="fl"><path d="M0 0v-30" stroke="#3f8f6a" stroke-width="2.5" fill="none"/><path d="M0-14c6-6 12-6 14-2-5 3-10 4-14 2z" fill="#3f8f6a"/>
+          <g transform="translate(0 -34)"><circle cx="0" cy="-7" r="6"/><circle cx="6.7" cy="-2.2" r="6"/><circle cx="4.1" cy="5.7" r="6"/><circle cx="-4.1" cy="5.7" r="6"/><circle cx="-6.7" cy="-2.2" r="6"/><circle r="4.5" fill="#ffd36b"/></g></g>
+      </defs>
+      <g transform="translate(30 56)"><use class="f" href="#fl" fill="#f49ac1"/></g>
+      <g transform="translate(110 56) scale(.8)"><use class="f" href="#fl" fill="#c3c8ee"/></g>
+      <g transform="translate(200 56)"><use class="f" href="#fl" fill="#ffb3a7"/></g>
+      <g transform="translate(290 56) scale(.75)"><use class="f" href="#fl" fill="#f49ac1"/></g>
+      <g transform="translate(380 56)"><use class="f" href="#fl" fill="#c3c8ee"/></g>
+      <g transform="translate(460 56) scale(.85)"><use class="f" href="#fl" fill="#ffb3a7"/></g>
+      <g transform="translate(540 56)"><use class="f" href="#fl" fill="#f49ac1"/></g>
+      <g transform="translate(610 56) scale(.7)"><use class="f" href="#fl" fill="#c3c8ee"/></g>
+    </svg>
     <div class="n-bottom-in">
       <button class="btn btn-line" type="button" id="nBack">Geri</button>
       <button class="btn btn-paper" type="button" id="nNext">Devam</button>
@@ -915,7 +983,7 @@
 
   function bitir(k) {
     N.list = N.list.slice(0, N.i + 1).concat([{
-      tag: 'Oyun bitti', faz: 'end', round: -1,
+      tag: 'Oyun bitti', faz: 'end', round: -1, kazanan: k,
       say: k === 'koy'
         ? 'Güneş doğdu ve köylüler kazandı! Son vampir de yakalandı.'
         : 'Köy karanlığa gömüldü. Vampirler kazandı!',
@@ -935,6 +1003,7 @@
     const nar = $('narrator');
     nar.classList.toggle('is-day', s.faz === 'day');
     nar.classList.toggle('is-end', s.faz === 'end');
+    nar.classList.toggle('win-koy', s.faz === 'end' && s.kazanan === 'koy');
     $('nChip').textContent = s.faz === 'day' ? 'Gündüz' : s.faz === 'end' ? 'Final' : (s.round === 0 ? 'Hazırlık' : 'Gece');
     $('nTag').textContent = s.tag;
     $('nSay').textContent = val(s.say);
