@@ -218,6 +218,7 @@
   .calc-packs { font-family: var(--head); font-weight: 700; font-size: 20px; text-transform: uppercase; color: var(--ink); margin: 0 0 12px; }
   .mini { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
   .mini i { width: 14px; height: 44px; border-radius: 2px; display: block; }
+  .calc-box { margin: 0 0 6px; font-size: 13px; font-weight: 500; color: #4a4874; }
   .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 15px; color: #3c3a66; }
   .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; }
   .calc .note { margin: 16px 0 0; font-size: 14px; color: #4a4874; border-top: 1px solid #d7d8e6; padding-top: 14px; }
@@ -474,7 +475,7 @@
       <div>
         <h2>Oyun bir dakikada <em>kurulur</em></h2>
         <ol class="steps">
-          <li><div><strong>Kişi sayısı kadar sakız alın</strong><p>Sakızlar kutuda belirli bir sırayla dizili. Soldan başlayarak, anlatıcı dahil kaç kişiyseniz o kadar sakız alın. Gerisi kutuda kalır; roller zaten kişi sayısına göre dengeli çıkar.</p></div></li>
+          <li><div><strong>Kişi sayısı kadar sakız alın</strong><p>Sakızlar kutuda belirli bir sırayla dizili. Soldan başlayarak, anlatıcı dahil kaç kişiyseniz o kadar sakız alın. Gerisi kutuda kalır; roller zaten kişi sayısına göre dengeli çıkar. 14 kişiden fazlaysanız ilk kutunun tamamını, ikinci kutudan da soldan kalan kişi sayısı kadar sakız alın; ikinci kutunun anlatıcı sakızı köylü sayılır.</p></div></li>
           <li><div><strong>İlki anlatıcının, gerisini karıştırın</strong><p>En soldaki sakız anlatıcınındır; anlatıcı olmak isteyen gönüllü alır, gönüllü çıkmazsa kurayla belirleyin. Kalan sakızları avucunuzda karıştırın, herkes bir tane çeksin.</p></div></li>
           <li><div><strong>Bak, katla, cebine koy</strong><p>Kâğıdın içine kimseye göstermeden bak. Katla ve cebine koy.</p></div></li>
           <li><div><strong>Hep birlikte ağza</strong><p>Anlatıcı “üç” deyince herkes sakızını aynı anda ağzına atar. Gece başlar.</p></div></li>
@@ -482,7 +483,7 @@
       </div>
       <div class="calc" id="hesap">
         <h3>Kaç kişisiniz?</h3>
-        <p class="hint">Anlatıcı dahil kaç kişi oynayacağını seçin. Her kutuda 14 sakız var: 1 anlatıcı, 3 vampir, 1 doktor, 9 köylü. Tek kutu 5 ile 14 kişi arası oynar.</p>
+        <p class="hint">Anlatıcı dahil kaç kişi oynayacağını seçin. Her kutuda 14 sakız var: 1 anlatıcı, 3 vampir, 1 doktor, 9 köylü. Tek kutu 5 ile 14 kişi arası oynar; 15–28 kişi için iki kutu açın.</p>
         <div class="stepper" role="group" aria-label="Oyuncu sayısı">
           <button type="button" id="pMinus" aria-label="Azalt">−</button>
           <output id="pCount" aria-live="polite">5</output>
@@ -511,7 +512,7 @@
           <button class="wrapped" type="button" aria-expanded="false" aria-label="Doktor kâğıdını aç"><span class="paper"><span class="role">Doktor</span><span class="tag">Bu gece kimi koruyacaksın?</span></span><span class="cover" aria-hidden="true"><span class="cover-moon"></span><span class="cover-name">MIDNIGHT</span><span class="cover-hint">Aç</span></span></button>
           <div class="team">Köylü takımı</div>
           <div class="role-desc">Her gece bir kişiyi korur. Vampirler o kişiyi ısırırsa kimse ölmez.
-            <ul><li>Kendini oyun boyunca yalnızca bir kez koruyabilir.</li><li>Aynı kişiyi üst üste iki gece koruyamaz.</li></ul>
+            <ul><li>Kendini oyun boyunca yalnızca bir kez koruyabilir.</li><li>Aynı kişiyi üst üste iki gece koruyamaz.</li><li>20 kişi ve üstünde iki doktor olur: birlikte uyanır, anlaşıp tek bir kişiyi korurlar.</li></ul>
           </div>
         </div>
         <div>
@@ -609,7 +610,7 @@
   <section class="s-deep" id="seri">
     <div class="wrap">
       <h2>Üç aroma, <em>tek gece</em></h2>
-      <p class="lead">Her kutuda tek aroma ve 14 sakız: 1 anlatıcı, 3 vampir, 1 doktor, 9 köylü. Tek kutu 5 ile 14 kişi arası her grup için yeter; daha az kişiyseniz soldan kişi sayınız kadar sakız almanız yeterli.</p>
+      <p class="lead">Her kutuda tek aroma ve 14 sakız: 1 anlatıcı, 3 vampir, 1 doktor, 9 köylü. Tek kutu 5 ile 14 kişi arası her grup için yeter; daha az kişiyseniz soldan kişi sayınız kadar sakız almanız yeterli. 28 kişiye kadar kalabalık gruplar iki kutuyla oynar.</p>
       <div class="series">
         <figure><img src="img/nane.webp" width="1140" height="886" alt="Vivident Midnight nane aromalı paket" loading="lazy" decoding="async"><figcaption><span style="background:#2f8a6a"></span>Nane aromalı</figcaption></figure>
         <figure><img src="img/cilek.webp" width="1109" height="858" alt="Vivident Midnight çilek aromalı paket" loading="lazy" decoding="async"><figcaption><span style="background:#8a2a7a"></span>Çilek aromalı</figcaption></figure>
@@ -671,7 +672,10 @@
   // 5 → 1V/0D/3K · 6–8 → 1V/1D · 9–12 → 2V/1D · 13–14 → 3V/1D (anlatıcı dahil)
   const SIRA = ['anlatici', 'vampir', 'koylu', 'koylu', 'koylu', 'sifaci', 'koylu',
                 'koylu', 'vampir', 'koylu', 'koylu', 'koylu', 'vampir', 'koylu'];
-  const MIN_KISI = 5, MAX_KISI = SIRA.length;   // anlatıcı dahil
+  const KUTU = SIRA.length;
+  // 15–28 kişi: 1. kutunun tamamı + 2. kutudan soldan kalan kişi sayısı kadar sakız.
+  // 2. kutunun anlatıcı sakızı köylü sayılır. 20+ kişide 2 doktor olur: birlikte uyanıp tek kişiyi korurlar.
+  const MIN_KISI = 5, MAX_KISI = 2 * KUTU;   // anlatıcı dahil
   // Sakız çekme demosu: 6 kişilik (anlatıcı dahil) bir grubun oyuncu sakızları
   const DEMO = { vampir: 1, sifaci: 1, koylu: 3 };
   const ROL = {
@@ -749,9 +753,11 @@
   // Soldan k sakız alındığında oyuna giren roller
   function dagilim(k) {
     const r = { vampir: 0, sifaci: 0, koylu: 0 };
-    SIRA.slice(1, k).forEach(x => r[x]++);
-    return { ...r, kalan: SIRA.length - k };
+    SIRA.concat(SIRA).slice(1, k).forEach(x => r[x === 'anlatici' ? 'koylu' : x]++);
+    const kutu = k > KUTU ? 2 : 1;
+    return { ...r, kutu, ikinci: k - KUTU, kalan: kutu * KUTU - k };
   }
+  const cogul = (n, tek, cok) => n > 1 ? cok : tek;
   const roller = (o) => [
     o.vampir && `${o.vampir} Vampir`, o.sifaci && `${o.sifaci} Doktor`, o.koylu && `${o.koylu} Köylü`
   ].filter(Boolean).join(', ') || 'hiçbiri';
@@ -765,14 +771,19 @@
     document.querySelectorAll('.kMinus').forEach(b => b.disabled = kisi <= MIN_KISI);
     document.querySelectorAll('.kPlus').forEach(b => b.disabled = kisi >= MAX_KISI);
     // Kutu soldan sağa: alınan sakızlar renkli, kutuda kalanlar soluk
-    const sticks = SIRA.map((x, i) => `<i style="background:${RENK[x]}"${i >= kisi ? ' class="off"' : ''}></i>`).join('');
+    const kutuCiz = (alinan) => `<div class="mini" aria-hidden="true">${SIRA.map((x, i) => `<i style="background:${RENK[x]}"${i >= alinan ? ' class="off"' : ''}></i>`).join('')}</div>`;
+    const baslik = r.kutu === 1
+      ? `Soldan ${kisi} sakız al${r.kalan ? ` · ${r.kalan} sakız kutuda kalır` : ''}`
+      : `2 kutu · 1. kutunun tamamı + 2. kutudan soldan ${r.ikinci} sakız`;
+    const kutular = r.kutu === 1 ? kutuCiz(kisi)
+      : `<p class="calc-box">1. kutu</p>${kutuCiz(KUTU)}<p class="calc-box">2. kutu</p>${kutuCiz(r.ikinci)}`;
     let html = `
-      <p class="calc-packs">Soldan ${kisi} sakız al${r.kalan ? ` · ${r.kalan} sakız kutuda kalır` : ''}</p>
-      <div class="mini" aria-hidden="true">${sticks}</div>
+      <p class="calc-packs">${baslik}</p>
+      ${kutular}
       <div class="calc-rows">
-        <span><b>İlk sakız:</b> Anlatıcı</span>
+        <span><b>İlk sakız:</b> Anlatıcı${r.kutu === 2 ? ' (1. kutunun)' : ''}</span>
         <span><b>Oyunda:</b> ${roller(r)}</span>
-      </div>
+      </div>${r.kutu === 2 ? `<p class="note" style="margin:0 0 14px">2. kutunun anlatıcı sakızı oyunda köylü sayılır: kâğıdında “Anlatıcı” yazan oyuncu köylüdür.${r.sifaci > 1 ? ' İki doktor gece birlikte uyanır ve anlaşıp tek bir kişiyi korur.' : ''}</p>` : ''}
       <div class="legend">
         <span><i style="background:var(--teal)"></i>Anlatıcı</span>
         <span><i style="background:var(--blood)"></i>Vampir</span>
@@ -798,16 +809,26 @@
       say: 'Hoş geldiniz. Bu gece köyde vampirler var.',
       note: 'Sen anlatıcısın. Oyuncuları bir çember halinde oturt. Büyük yazıyı yüksek sesle oku, alttaki notlar sadece senin için.' },
     { tag: 'Hazırlık', faz: 'night',
-      say: () => `Kutudan soldan başlayarak ${kisi} sakız alıyorum. İlki benim, anlatıcı sakızı.`,
+      say: () => {
+        const r = dagilim(kisi);
+        return r.kutu === 1
+          ? `Kutudan soldan başlayarak ${kisi} sakız alıyorum. İlki benim, anlatıcı sakızı.`
+          : `Birinci kutunun tamamını, ikinci kutudan da soldan ${r.ikinci} sakız alıyorum. Birinci kutunun ilk sakızı benim, anlatıcı sakızı.`;
+      },
       note: () => {
         const r = dagilim(kisi);
-        return `Sırayı bozmadan soldan <b>${kisi} sakız</b> al, gerisini kutuda bırak. Oyunda: <b>${roller(r)}</b>. Kişi sayısı yanlışsa rehberi kapatıp düzelt.`;
+        const al = r.kutu === 1
+          ? `Sırayı bozmadan soldan <b>${kisi} sakız</b> al, gerisini kutuda bırak.`
+          : `1. kutunun <b>14 sakızının tamamını</b>, 2. kutudan sırayı bozmadan soldan <b>${r.ikinci} sakız</b> al. 1. kutunun ilk sakızı senin; 2. kutunun anlatıcı sakızı diğerleriyle karıştırılır ve köylü sayılır.`;
+        return `${al} Oyunda: <b>${roller(r)}</b>. Kişi sayısı yanlışsa rehberi kapatıp düzelt.`;
       } },
     { tag: 'Hazırlık', faz: 'night',
       say: 'Sakızları avucumda karıştırıyorum. Herkes bir tane çeksin.',
       note: 'Kalan sakızları avucunda karıştır, herkes bir tane çeksin.' },
     { tag: 'Hazırlık', faz: 'night',
-      say: 'Kâğıdınızın içine gizlice bakın. Katlayın, cebinize koyun.',
+      say: () => dagilim(kisi).kutu === 1
+        ? 'Kâğıdınızın içine gizlice bakın. Katlayın, cebinize koyun.'
+        : 'Kâğıdınızın içine gizlice bakın. Kâğıdında Anlatıcı yazıyorsa sen köylüsün. Katlayın, cebinize koyun.',
       note: 'Kimsenin kâğıdını göstermediğinden emin ol.' },
     { tag: 'Hazırlık', faz: 'night',
       say: 'Üç deyince hep birlikte sakızlar ağza! Bir… iki… üç!',
@@ -833,26 +854,33 @@
     const doktorVar = dagilim(kisi).sifaci > 0;
     if (!doktorVar) N.sonuc = 'olum';
     if (doktorVar) {
-    steps.push({ tag: `${g}. Gece · Doktor`, faz: 'night',
-      say: 'Doktor gözlerini açsın. Bu gece kimi koruyorsun?',
-      note: 'Doktor kendini oyun boyunca <b>bir kez</b> koruyabilir ve aynı kişiyi üst üste iki gece koruyamaz. Doktor ölmüş olsa bile bu adımı oku, kimse anlamasın.' });
-    steps.push({ tag: `${g}. Gece · Doktor`, faz: 'night',
-      say: 'Doktor gözlerini kapatsın.',
-      note: 'Şimdi geceyi değerlendir: Doktor, vampirlerin seçtiği kişiyi mi korudu?' });
+    // 20+ kişide iki doktor: birlikte uyanır, anlaşıp tek kişiyi korurlar
+    const ikiDoktor = dagilim(kisi).sifaci > 1;
+    const dr = ikiDoktor ? 'Doktorlar' : 'Doktor';
+    steps.push({ tag: `${g}. Gece · ${dr}`, faz: 'night',
+      say: !ikiDoktor ? 'Doktor gözlerini açsın. Bu gece kimi koruyorsun?'
+        : g === 1 ? 'Doktorlar gözlerini açsın. Birbirinize bakın. Bu gece kimi koruyorsunuz?'
+        : 'Doktorlar gözlerini açsın. Bu gece kimi koruyorsunuz?',
+      note: ikiDoktor
+        ? 'Doktorlar sessizce anlaşıp <b>tek bir kişiyi</b> işaret etsin. Her doktor kendini oyun boyunca <b>bir kez</b> koruyabilir; aynı kişi üst üste iki gece korunamaz. Doktorlar ölmüş olsa bile bu adımı oku, kimse anlamasın.'
+        : 'Doktor kendini oyun boyunca <b>bir kez</b> koruyabilir ve aynı kişiyi üst üste iki gece koruyamaz. Doktor ölmüş olsa bile bu adımı oku, kimse anlamasın.' });
+    steps.push({ tag: `${g}. Gece · ${dr}`, faz: 'night',
+      say: `${dr} gözlerini kapatsın.`,
+      note: `Şimdi geceyi değerlendir: ${ikiDoktor ? 'Doktorlar, vampirlerin seçtiği kişiyi mi korudu?' : 'Doktor, vampirlerin seçtiği kişiyi mi korudu?'}` });
 
     steps.push({ tag: `${g}. Gece · Sonuç`, faz: 'night',
       say: 'Gece nasıl geçti?',
       note: 'Bu ekran sadece senin için. Sonucu seç, sonraki ekranda yüksek sesle okuyacaksın.',
       choices: [
         { label: 'Biri ısırıldı', cls: 'btn-red', act: () => { N.sonuc = 'olum'; ileri(); } },
-        { label: 'Doktor kurtardı, kimse ölmedi', cls: 'btn-line', act: () => { N.sonuc = 'kurtuldu'; ileri(); } }
+        { label: ikiDoktor ? 'Doktorlar kurtardı, kimse ölmedi' : 'Doktor kurtardı, kimse ölmedi', cls: 'btn-line', act: () => { N.sonuc = 'kurtuldu'; ileri(); } }
       ] });
     }
 
     steps.push({ tag: `${g}. Gün · Sabah`, faz: 'day',
       say: () => N.sonuc === 'olum'
         ? 'Köy uyansın! Güneş doğdu… ama bu sabah herkes uyanamadı. Bu gece biri ısırıldı.'
-        : 'Köy uyansın! Vampirler bu gece birini ısırdı… ama doktor onu kurtardı. Bu gece kimse ölmedi.',
+        : `Köy uyansın! Vampirler bu gece birini ısırdı… ama ${dagilim(kisi).sifaci > 1 ? 'doktorlar' : 'doktor'} onu kurtardı. Bu gece kimse ölmedi.`,
       note: () => N.sonuc === 'olum'
         ? 'Isırılan kişinin adını söyle. Rolünü açıklama, kâğıdını göstermesin. Ölen oyuncu artık konuşamaz.'
         : 'Kimin kurtarıldığını söyleme.' });
