@@ -204,6 +204,11 @@
   .calc { background: var(--paper); color: #1d1a4a; border-radius: 4px; padding: 24px; position: relative; }
   .calc h3 { color: var(--ink); }
   .calc .hint { margin: 0 0 18px; color: #5c5a86; font-size: 15px; }
+  /* Art arda hızlı dokunuşlarda metin seçilmesin, mobilde dokunma vurgusu ve çift dokunma yakınlaştırması çıkmasın */
+  .stepper, .toggle, .btn, .icon-btn {
+    -webkit-user-select: none; user-select: none;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  }
   .stepper { display: inline-flex; align-items: center; border: 2px solid var(--ink); border-radius: 4px; }
   .stepper button { width: 52px; height: 52px; border: 0; background: transparent; color: var(--ink); font-size: 26px; font-weight: 500; cursor: pointer; }
   .stepper button:disabled { opacity: .3; cursor: default; }
